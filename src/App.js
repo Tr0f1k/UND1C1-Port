@@ -1753,8 +1753,7 @@ function App() {
         </div>
         <div className='Score'>
           <div>{team1Goals}:{team2Goals}</div>
-          <p><div className='time'>{isGameEnded ? 'Game Ended' : `Turn ${turn} Team ${team}`}</div></p>
-          <p><div className='time'>Moves left: {Math.max(remainingMovements, 0)}</div></p>
+          <p><div className='time'>{isGameEnded ? 'Game Ended' : `Turn ${turn} Team ${team}`} Moves left: {Math.max(remainingMovements, 0)}</div></p>
         </div>
         <div className='Team2'>
           Team 2
