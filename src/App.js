@@ -1927,6 +1927,7 @@ function App() {
       {displaySection === 'log' && (
         <>
       <div>Match Log:</div>
+      
       <ul>
         {matchLog.map((entry, index) => (
           <li key={index}>{entry}</li>
