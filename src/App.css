@@ -1,38 +1,318 @@
-.App {
+body {
+  background-color: #232323;
+}
+
+div {
+  color:aliceblue;
+}
+
+.Scoreboard {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border: solid #FB0000;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+}
+
+.Team1 {
+  padding-top: 3%;
+  padding-bottom: 3%;
+  width: 30%;
+  font-size: x-large;
+  text-align: right;
+}
+
+.Score {
+  padding-top: 3%;
+  padding-bottom: 3%;
+  width: 40%;
+  font-size: x-large;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Team2 {
+  padding-top: 3%;
+  padding-bottom: 3%;
+  width: 30%;
+  font-size: x-large;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.line {
+  color: #FB0000;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.logstats {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.log {
+  width: 75%;
+  border: solid #FB0000;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-left: 0px;
+  text-align: center;
+}
+
+.stats {
+  width: 25%;
+  text-align: center;
+  font-size: small;
+}
+
+.time {
+  font-size: medium;
+}
+
+.Action {
+  padding-top: 39%;
+}
+
+.game-board {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.square {
+  width: 60px;
+  height: 40px;
+  border: 1px solid #000;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.circle {
+  font-size: large;
+}
+
+.team1.CRadolno {
+  background: url('./Teams/Team1/Cruelles/C.Radolno.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team1.Art {
+  background: url('./Teams/Team1/Cruelles/Art.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team1.VonMeerSalz {
+  background: url('./Teams/Team1/Cruelles/VonMeerSalz.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team1.VanBindelrooy {
+  background: url('./Teams/Team1/Cruelles/VanBindelrooy.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team1.Romeny {
+  background: url('./Teams/Team1/Cruelles/Romeny.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team1.Keens {
+  background: url('./Teams/Team1/Cruelles/Keens.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team1.Shovels {
+  background: url('./Teams/Team1/Cruelles/Shovels.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team1.Bronze {
+  background: url('./Teams/Team1/Cruelles/Bronze.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team1.Silberves {
+  background: url('./Teams/Team1/Cruelles/Silberves.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team1.Fremant {
+  background: url('./Teams/Team1/Cruelles/Fremant.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team1.Hentz {
+  background: url('./Teams/Team1/Cruelles/Hents.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team2.Ziderm {
+  background: url('./Teams/Team2/Coronas/Ziderm.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team2.Rasmoz {
+  background: url('./Teams/Team2/Coronas/Rasmoz.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team2.Marsillas {
+  background: url('./Teams/Team2/Coronas/Marsillas.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team2.Radolno {
+  background: url('./Teams/Team2/Coronas/Radolno.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team2.Boomwhale {
+  background: url('./Teams/Team2/Coronas/Boomwhale.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team2.Santiago {
+  background: url('./Teams/Team2/Coronas/Santiago.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team2.Larcos {
+  background: url('./Teams/Team2/Coronas/Larcos.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team2.Yuti {
+  background: url('./Teams/Team2/Coronas/Yuti.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team2.Gammelsen {
+  background: url('./Teams/Team2/Coronas/Gammelsen.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team2.Backpam {
+  background: url('./Teams/Team2/Coronas/Backpam.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.team2.Rajol {
+  background: url('./Teams/Team2/Coronas/Rajol.png') no-repeat center center;
+  background-size: 75%;
+}
+
+.available {
+  background-color: white;
+}
+
+.ball {
+  position: absolute;
+  width: 3%;
+  height: 3%;
+  background: url('./Ball/Ball.png') no-repeat center center;
+  background-size: contain;
+}
+
+.custom-content {
   color: white;
+  font-size: 14px; 
+  font-weight: bold; 
+  background-color: green;
 }
 
-.App-link {
-  color: #61dafb;
+.attack {
+  background-color: green;
+  height: 10px;
+  border: 1px solid green;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.midfield {
+  background-color: yellow;
+  border: 1px solid yellow;
+  height: 10px;
+}
+
+.defence {
+  background-color: red;
+  border: 1px solid red;
+  height: 10px;
+}
+
+.centerfield {
+  background-color: white;
+  border: 1px solid white;
+  height: 10px;
+}
+
+.corners {
+  background-color: #000;
+  border: 1px solid #000;
+  height: 10px;
+}
+
+.bounds {
+  background-color: #000;
+}
+
+.bottomrightborder{
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+}
+
+.rightborder {
+  border-right: 1px solid white;
+}
+
+.bottomborder {
+  border-bottom: 1px solid white;
+}
+
+.topleftborder {
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+}
+
+.toprightborder {
+  border-top: 1px solid white;
+  border-right: 1px solid white;
+}
+
+.bottomleftborder {
+  border-bottom: 1px solid white;
+  border-left: 1px solid white;
+}
+
+.circle.passing {
+  background-color: yellow;
+}
+
+.circle.tackling {
+  background-color: red;
+}
+
+.circle.dribbling {
+  background-color: blue;
+}
+
+.shooting {
+  background-color: green;
+}
+
+.disable {
+  opacity: 25%;
+}
+
+.circle.tractor {
+  background-color: grey;
+}
+
+.circle.gm {
+  background-color: blueviolet;
 }

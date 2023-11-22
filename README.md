@@ -1,70 +1,72 @@
-# Getting Started with Create React App
+# UND1C1 Port
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a port of a tabletop game about football named 'UND1C1'. I have no rights to use their name or anything else, this is just a personal project that I have made for fun and to gain some experience in web development. If you'll like what you see - consider buying original game by this link: https://www.und1c1.com/
 
-## Available Scripts
+## How It Works:
 
-In the project directory, you can run:
+The goal of "UND1C1" is simple: like in real footbal, you have to score more goals than your opponent to win. Each turn, a player can make three moves. He can:
 
-### `npm start`
+1) Move one of his players
+2) Move multiple players
+3) Pass the ball to the teammate
+4) Dribble past the opponent
+5) Tackle the opponent to get the ball
+6) Shoot the ball
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The outcome of most actions depend on throwing the dice and on skills of a player. While explaining the possible actions, I will describe the skills that are taken into consideration. For the future, if the skill has colored background and black icon, it gives +1 to a certain dice result. If it has black background and colored icon - +2.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Movement
 
-### `npm test`
+By default, each player can move by 2 squares in any direction without the ball and by 1 square with the ball. If the player has a "Rabbit" skill, he gets +1 to all of his movements (3 squares without the ball and 2 with the ball). If a player has a "Tractor" skill, he can be moved after the player has used his previous moves, and after all the moves were made the backgrounds of squares with the players that have the "Tractor" skill will change color to grey. The player cannot move to a certain square if he has a circle that is blocking his way. The available squares for movement have white color
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Move multiple players
 
-### `npm run build`
+If the players of one team are located on the same line (by line I mean those red, yellow, green, and white stripes on the sides of the field), you can move all of them at once in the same direction and use only one move for that. In order to do it, you should press on the stripe at the side of the field, and all the players available for movement will be coloured purple. Then you should choose the direction in which you want to move your players, and when you're done, you should press "Finish Group Movement".
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Passing
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+By clicking on a player that has the ball, you will see the players that are available for pass. If you press on one of those players, you will initiate a pass. The outcome is based on four things:
+    - Distance to your opponent (I am still working to replicate the original formula, but it is a bit challenging. For now, it is just the distance from one square to another divided by 5)
+    - Dice roll result (1 to 6)
+    - Playmaker skill (Yellow binoculair)
+    - Amount of opponent players on squares adjacent to the reciever (-1 for each player)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+If the pass is successful (dice roll > distance), the reciever gets the ball. If not, then the closest opponent gets the ball and your turn ends.
 
-### `npm run eject`
+### Tackling and Dribbling
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Tackling and dribbling work similar to each other. If you are in front of your opponent who has the ball, you can try and tackle him (indicated by red color). Or, if you have the ball and there is an opponent in front of you, yuo can try and dribble past him (indicated by blue color). After that, the outcome is based on the dice roll and two skills: "Wizard" for a player with the ball (Blue Hat) and "Sentinel" for a player without the ball (Two Red Spears). The players change places, and the player who gets better dice result (considering the skills), keeps the ball. The player who got tackled or lost the ball after the dribble cannot make any moves for one turn (he will appear faded out). 
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Shooting
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+A player can shoot the ball only from the squares with the numbers. When your player with the ball is located at one of those squares, you can initiate a shot by pressing on a green square. The outcome is calculated like this:
+    - Dice rolls by both players
+    - Position of the shooter (those numbers represent the value that you should add or substract from your dice result. ex.: -3, +4, etc.)
+    - Skills (If shooting from the penalty box - Viper (Green Snake), if shooting from outside the box - Cannon (Just a Green Cannon). For goalkeeper - Paw  (self-explanatory))
+    - If there is a player of opponent right in front of the shooter, it counts as -1
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+If a goal is scored, teams are automatically moved to the kickoff position. If it is a save, the goalkeeper gets the ball and he can pass it to any player on his team
 
-## Learn More
+## Functionality
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+In order to make it work, I have made an array with empty squares and then I populate it with the information about the players. Each player has a value for name, his team, if he has the ball, if he should not be able to move for the next turn, if he takes part in the group movement, and a list of his skills. After performing each action, I am changing previous grid with the modified one. 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+I will explain this concept on passes: when a player with the ball is clicked, he can pass the ball to any of his teammates. When I am pressing on the teammate (if the pass is successful), I replace an old grid with a new one and make a small change. I put the "hasBall" value of the passer as "false", and "true" for the reciever.
 
-### Code Splitting
+All of the skills that are taken into consideration are added in the methods that are used to calculate the outcome of the action. For example, in passing method, I have several "if" statements that check whether the player has the "Playmaker" skill or whether the reciever is covered by opponent's players. After the dice result is recieved, it goes through those "if" statements, and the value is being either increased or decreased.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+After scoring a goal, I am returning all the players to a starting position. In the future, I plan to make it in a better way, but, for now, I just have two grids: one for the case when team 1 has scored, and another one for the case when team 2 has scored.
 
-### Analyzing the Bundle Size
+## Future Additions:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+There are still a lot of mechanincs that I have not implemented in this project. So far, my to-do list looks like this:
 
-### Making a Progressive Web App
+1) Add padlocks (After each turn, player can put two locks on the field and opponent cannot go through those squares)
+2) Restrict the amount of players in their own penalty box by 4
+3) Add volleys and headers
+4) Add offside rule
+5) Add cards that are used in the game
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+# P.S.
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Again, I want to address the fact that this is intended only as a project to gain experience, and there was no personal gain in thought. If you'll like how this game works, consider checking it out via https://www.und1c1.com/ .
