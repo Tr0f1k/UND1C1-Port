@@ -17,7 +17,7 @@ div {
 }
 
 .Team1 {
-  padding-top: 3%;
+  padding-top: 2%;
   padding-bottom: 3%;
   width: 30%;
   font-size: x-large;
@@ -25,15 +25,14 @@ div {
 }
 
 .Score {
-  padding-top: 3%;
-  padding-bottom: 3%;
+  padding-top: 2%;
   width: 40%;
   font-size: x-large;
   text-align: center;
 }
 
 .Team2 {
-  padding-top: 3%;
+  padding-top: 2%;
   padding-bottom: 3%;
   width: 30%;
   font-size: x-large;
@@ -50,7 +49,7 @@ div {
 }
 
 .log {
-  width: 75%;
+  width: 83%;
   border: solid #FB0000;
   border-top: 0px;
   border-bottom: 0px;
@@ -59,7 +58,7 @@ div {
 }
 
 .stats {
-  width: 25%;
+  width: 17%;
   text-align: center;
   font-size: small;
 }
@@ -84,8 +83,10 @@ div {
 }
 
 .square {
-  width: 60px;
-  height: 40px;
+  /*width: 60px;
+  height: 40px;*/
+  width: 4.5vw;
+  height: 4.5vh;
   border: 1px solid #000;
   display: inline-flex;
   align-items: center;
@@ -100,112 +101,112 @@ div {
 
 .team1.CRadolno {
   background: url('./Teams/Team1/Cruelles/C.Radolno.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team1.Art {
   background: url('./Teams/Team1/Cruelles/Art.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team1.VonMeerSalz {
   background: url('./Teams/Team1/Cruelles/VonMeerSalz.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team1.VanBindelrooy {
   background: url('./Teams/Team1/Cruelles/VanBindelrooy.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team1.Romeny {
   background: url('./Teams/Team1/Cruelles/Romeny.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team1.Keens {
   background: url('./Teams/Team1/Cruelles/Keens.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team1.Shovels {
   background: url('./Teams/Team1/Cruelles/Shovels.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team1.Bronze {
   background: url('./Teams/Team1/Cruelles/Bronze.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team1.Silberves {
   background: url('./Teams/Team1/Cruelles/Silberves.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team1.Fremant {
   background: url('./Teams/Team1/Cruelles/Fremant.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team1.Hentz {
   background: url('./Teams/Team1/Cruelles/Hents.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team2.Ziderm {
   background: url('./Teams/Team2/Coronas/Ziderm.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team2.Rasmoz {
   background: url('./Teams/Team2/Coronas/Rasmoz.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team2.Marsillas {
   background: url('./Teams/Team2/Coronas/Marsillas.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team2.Radolno {
   background: url('./Teams/Team2/Coronas/Radolno.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team2.Boomwhale {
   background: url('./Teams/Team2/Coronas/Boomwhale.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team2.Santiago {
   background: url('./Teams/Team2/Coronas/Santiago.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team2.Larcos {
   background: url('./Teams/Team2/Coronas/Larcos.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team2.Yuti {
   background: url('./Teams/Team2/Coronas/Yuti.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team2.Gammelsen {
   background: url('./Teams/Team2/Coronas/Gammelsen.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team2.Backpam {
   background: url('./Teams/Team2/Coronas/Backpam.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .team2.Rajol {
   background: url('./Teams/Team2/Coronas/Rajol.png') no-repeat center center;
-  background-size: 75%;
+  background-size: 60%;
 }
 
 .available {
@@ -315,4 +316,15 @@ div {
 
 .circle.gm {
   background-color: blueviolet;
+}
+
+.skills {
+  width: 1%;
+  height: 1%;
+}
+
+.rules {
+  background-color: black;
+  opacity: 85%;
+  font-size: 12px;
 }

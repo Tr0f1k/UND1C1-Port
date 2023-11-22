@@ -2,6 +2,9 @@
 
 This is a port of a tabletop game about football named 'UND1C1'. I have no rights to use their name or anything else, this is just a personal project that I have made for fun and to gain some experience in web development. If you'll like what you see - consider buying original game by this link: https://www.und1c1.com/
 
+## Trying it out
+You can try out this program via GitHub Pages via this link: https://tr0f1k.github.io/UND1C1-Port/
+
 ## How It Works:
 
 The goal of "UND1C1" is simple: like in real footbal, you have to score more goals than your opponent to win. Each turn, a player can make three moves. He can:
@@ -66,6 +69,14 @@ There are still a lot of mechanincs that I have not implemented in this project.
 3) Add volleys and headers
 4) Add offside rule
 5) Add cards that are used in the game
+
+## Updates
+
+### 22/11/2023
+
+1) Added GitHub Pages functionality
+2) Added "Rules" button that displays the rules of the game
+3) Added the Turn and Move tracker under the score
 
 # P.S.
 
