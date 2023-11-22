@@ -991,6 +991,7 @@ function App() {
         let diceResult1 = dice1;
         let diceResult2 = dice2;
         let coeff = 0;
+        
         const distance = ((Math.abs(selectedCircle.row - row) + Math.abs(selectedCircle.col - col))/5).toFixed(0);
         coeff = distance * 1;
         console.log('Distance: ', distance);
