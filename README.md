@@ -78,7 +78,7 @@ There are still a lot of mechanincs that I have not implemented in this project.
 2) Added "Rules" button that displays the rules of the game
 3) Added the Turn and Move tracker under the score
 
-### 23/11/2023
+### 28/11/2023
 
 1) Fixed a bug when after triggering the group movement a player could make more than one movement at a time
 2) Removed some of unused methods
