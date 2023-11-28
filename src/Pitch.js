@@ -1,8 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css'
+import Ball from './Ball/Ball.png'
+import Viper from './Skills/viper.png'
+import Rabbit from './Skills/rabbit.png'
+import Paw from './Skills/paw.png'
+import BlackPaw from './Skills/black-paw.png'
+import Tractor from './Skills/tractor.png'
+import Playmaker from './Skills/playmaker.png'
+import BlackPlaymaker from './Skills/black-playmaker.png'
+import Wizard from './Skills/wizard.png'
+import BlackWizard from './Skills/black-wizard.png'
+import Gladiator from './Skills/gladiator.png'
+import BlackGladiator from './Skills/black-gladiator.png'
+import BlackViper from './Skills/black-viper.png'
+import Cannon from './Skills/cannon.png'
+import BlackCannon from './Skills/black-cannon.png'
 
 const Pitch = ({ grid, team, handleSquareClick, availableSquares, selectedCircle, availablePassing, availableTackling, availableDribbling, availableShooting, remainingMovements }) => {
-  console.log('Moves: ', remainingMovements);
+
+  /*const [hoveredSquare, setHoveredSquare] = useState(null);
+
+  const handleMouseEnter = (square) => {
+    setHoveredSquare(square);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredSquare(null);
+  };*/
+
   return (
   <div className="game-board">
     {grid.map((row, rowIndex) => (
@@ -234,9 +259,59 @@ const Pitch = ({ grid, team, handleSquareClick, availableSquares, selectedCircle
             {square && (
               <div className={`inner ${square.team === 2 ? 'rotate' : ''}`}>
                 {square.hasBall && <div className="ball"></div>}
-                {'•'}
               </div>
             )}
+            {/*{hoveredSquare === square && square && (
+                  <div className="popup">
+                    <p>{square?.name}</p>
+                    <p>{square?.hasBall && (
+                      <img src={Ball} className='skillsPitch'></img>
+                    )}
+                      {square.skills?.includes('Rabbit') && (
+                      <img src={Rabbit} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Tractor') && (
+                      <img src={Tractor} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Viper') && (
+                      <img src={Viper} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Black Viper') && (
+                      <img src={BlackViper} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Cannon') && (
+                      <img src={Cannon} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Black Cannon') && (
+                      <img src={BlackCannon} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Playmaker') && (
+                      <img src={Playmaker} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Black Playmaker') && (
+                      <img src={BlackPlaymaker} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Wizard') && (
+                      <img src={Wizard} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Black Wizard') && (
+                      <img src={BlackWizard} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Gladiator') && (
+                      <img src={Gladiator} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Black Gladiator') && (
+                      <img src={BlackGladiator} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Paw') && (
+                      <img src={Paw} className='skillsPitch'></img>
+                    )}
+                    {square.skills?.includes('Black Paw') && (
+                      <img src={BlackPaw} className='skillsPitch'></img>
+                    )}
+                    </p>
+                  </div>
+                    )}*/}
             {rowIndex === 7 && colIndex === 1 && <div className="custom-content">+3</div>}
             {rowIndex === 8 && colIndex === 1 && <div className="custom-content">+4</div>}
             {rowIndex === 9 && colIndex === 1 && <div className="custom-content">+4</div>}

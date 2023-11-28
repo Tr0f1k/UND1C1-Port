@@ -2,20 +2,6 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import Rules from './Rules'
 import Pitch from './Pitch'
-import Viper from './Skills/viper.png'
-import Rabbit from './Skills/rabbit.png'
-import Paw from './Skills/paw.png'
-import BlackPaw from './Skills/black-paw.png'
-import Tractor from './Skills/tractor.png'
-import Playmaker from './Skills/playmaker.png'
-import BlackPlaymaker from './Skills/black-playmaker.png'
-import Wizard from './Skills/wizard.png'
-import BlackWizard from './Skills/black-wizard.png'
-import Gladiator from './Skills/gladiator.png'
-import BlackGladiator from './Skills/black-gladiator.png'
-import BlackViper from './Skills/black-viper.png'
-import Cannon from './Skills/cannon.png'
-import BlackCannon from './Skills/black-cannon.png'
 
 function App() {
   const [turn, setTurn] = useState(1);
@@ -39,10 +25,6 @@ function App() {
   const [team2DribblesAttempts, setTeam2DribblesAttempts] = useState(0);
   const [team1DribblesCompleted, setTeam1DribblesCompleted] = useState(0);
   const [team2DribblesCompleted, setTeam2DribblesCompleted] = useState(0);
-  const [showTeamShootingButtons, setShowTeamShootingButtons] = useState(false);
-  const [showTeamPassingButtons, setShowTeamPassingButtons] = useState(false);
-  const [showTeamTacklingButtons, setShowTeamTacklingButtons] = useState(false);
-  const [showTeamDribblingButtons, setShowTeamDribblingButtons] = useState(false);
   const [selectedValue, setSelectedValue] = useState('0');
   const [passSelectedValue, setPassSelectedValue] = useState('1');
   const [matchLog, setMatchLog] = useState(["Match Start!"]);
@@ -60,8 +42,10 @@ function App() {
   const [modDiceResult1, setModDiceResult1] = useState(null);
   const [modDiceResult2, setModDiceResult2] = useState(null);
   const [coeff, setCoeff] = useState(0);
-  const [gmDirection, setGmDirection] = useState(1);
+  const [gmDirection, setGmDirection] = useState(0);
   const [groupMove, setGroupMove] = useState(false);
+  const [displayButtons, setDisplayButtons] = useState(false);
+  
 
   
   const numRows = 18;
@@ -107,22 +91,6 @@ function App() {
     setMatchLog([...matchLog, message]);
   };
 
-  const handleShot = () => {
-    setShowTeamWithPossession(0);
-    setShowTeamShootingButtons(true);
-    setShowTeamPassingButtons (false);
-    setShowTeamTacklingButtons (false);
-    setShowTeamDribblingButtons (false);
-  };
-
-  const handleCancel = () => {
-    setShowTeamWithPossession(teamWithPossession);
-    setShowTeamPassingButtons(false);
-    setShowTeamShootingButtons(false);
-    setShowTeamTacklingButtons (false);
-    setShowTeamDribblingButtons (false);
-  };
-
   const handleShootingButtons = (isGoal) => {
     if (isGoal) {
       if (team === 1) {
@@ -166,21 +134,7 @@ function App() {
         );
       }
     }
-
-    setShowTeamShootingButtons(false);
-    //setSelectedValue('0');
-    setShowTeamPassingButtons(false);
-    setShowTeamTacklingButtons (false);
-    setShowTeamDribblingButtons (false);
   };
-
-  /*const handleSelectedChange = (event) => {
-    setSelectedValue(event.target.value);
-  };*/
-
-  const handlePassSelectedChange = (event) => {
-    setPassSelectedValue(event.target.value)
-  }
 
   const handleNextTurn = () => {
     if (isPossessionTeam1) {
@@ -217,13 +171,6 @@ function App() {
       }
       return newGrid;
     });
-  };
-
-  const handlePass = () => {
-    setShowTeamWithPossession(0);
-    setShowTeamPassingButtons(true);
-    setShowTeamTacklingButtons (false);
-    setShowTeamDribblingButtons (false);
   };
 
   const handlePassingButtons = (isPass) => {
@@ -271,19 +218,6 @@ function App() {
         );
       }
     }
-
-    //setSelectedValue('0');
-    setShowTeamPassingButtons(false);
-    setShowTeamTacklingButtons (false);
-    setShowTeamDribblingButtons (false);
-  }
-
-  const handleTackle = () => {
-    setShowTeamWithPossession(0);
-    setShowTeamShootingButtons(false);
-    setShowTeamPassingButtons (false);
-    setShowTeamTacklingButtons (true);
-    setShowTeamDribblingButtons (false);
   }
 
   const handleTacklingButtons = (isTackle) => {
@@ -328,20 +262,6 @@ function App() {
         );
       }
     }
-
-    //setSelectedValue('0');
-    setShowTeamShootingButtons(false);
-    setShowTeamPassingButtons (false);
-    setShowTeamTacklingButtons (false);
-    setShowTeamDribblingButtons (false);
-  }
-
-  const handleDribble = () => {
-    setShowTeamWithPossession(0);
-    setShowTeamShootingButtons(false);
-    setShowTeamPassingButtons (false);
-    setShowTeamTacklingButtons (false);
-    setShowTeamDribblingButtons (true);
   }
 
   const handleDribblingButtons = (isDribble) => {
@@ -376,12 +296,6 @@ function App() {
         setTeamWithPossession(1);
       }
     }
-
-    //setSelectedValue('0');
-    setShowTeamPassingButtons(false);
-    setShowTeamShootingButtons(false);
-    setShowTeamTacklingButtons (false);
-    setShowTeamDribblingButtons (false);
   }
 
   const isGameEnded = turn === 22;
@@ -618,6 +532,7 @@ function App() {
 
     if ((row === 0 || row === 17) && remainingMovements > 0){
       setGroupMove(true);
+      setDisplayButtons('dirButtons');
       if (col === 1 || col === 2) {
       for (let i = 1; i < 17; i++) {
         for (let j = 1; j < 3; j++) {
@@ -777,7 +692,7 @@ function App() {
         diceResult1 -= 1;
         coeff -= 2;
       } else if (((selectedCircle.row === 6 || selectedCircle.row === 11 ) && selectedCircle.col === 13) || ((selectedCircle.row === 8 || selectedCircle.row === 9 ) && selectedCircle.col === 12)) {
-        diceResult1 = diceResult1;
+        diceResult1 += 0;
       } else if ((selectedCircle.row === 7 || selectedCircle.row === 10 ) && selectedCircle.col === 13) {
         diceResult1 += 1;
         coeff += 1;
@@ -795,28 +710,28 @@ function App() {
       }
       if (((selectedCircle.row === 6 || selectedCircle.row === 7 || selectedCircle.row === 8 || selectedCircle.row === 9 || selectedCircle.row === 10 || selectedCircle.row === 11) && selectedCircle.col === 11) ||
       ((selectedCircle.row === 5 || selectedCircle.row === 6 || selectedCircle.row === 7 || selectedCircle.row === 8 || selectedCircle.row === 9 || selectedCircle.row === 10 || selectedCircle.row === 11 || selectedCircle.row === 12) && selectedCircle.col === 12)) {
-        if (selectedCircleInfo.skills.includes('Cannon')) {
+        if (selectedCircleInfo.skills?.includes('Cannon')) {
           diceResult1 += 1;
           coeff += 1;
-        } else if (selectedCircleInfo.skills.includes('Black Cannon')) {
+        } else if (selectedCircleInfo.skills?.includes('Black Cannon')) {
           diceResult1 +=2;
           coeff +=2;
         }
       }
       if (((selectedCircle.row === 6 || selectedCircle.row === 7 || selectedCircle.row === 8 || selectedCircle.row === 9 || selectedCircle.row === 10 || selectedCircle.row === 11) && selectedCircle.col === 13) ||
       (( selectedCircle.row === 7 || selectedCircle.row === 8 || selectedCircle.row === 9 || selectedCircle.row === 10 ) && selectedCircle.col === 14)) {
-        if (selectedCircleInfo.skills.includes('Viper')) {
+        if (selectedCircleInfo.skills?.includes('Viper')) {
           diceResult1 += 1;
           coeff += 1;
-        } else if (selectedCircleInfo.skills.includes('Black Viper')) {
+        } else if (selectedCircleInfo.skills?.includes('Black Viper')) {
           diceResult1 +=2;
           coeff +=2;
         }
       }
-      if (grid[9][15].skills.includes('Paw')) {
+      if (grid[9][15].skills?.includes('Paw')) {
         diceResult2 += 1;
         coeff -= 1;
-      } else if (grid[9][15].skills.includes('Black Paw')) {
+      } else if (grid[9][15].skills?.includes('Black Paw')) {
         diceResult2 += 2;
         coeff -= 2;
       }
@@ -893,7 +808,7 @@ function App() {
         diceResult2 -= 1;
         coeff -= 1;
       } else if (((selectedCircle.row === 6 || selectedCircle.row === 11 ) && selectedCircle.col === 2) || ((selectedCircle.row === 8 || selectedCircle.row === 9 ) && selectedCircle.col === 3)) {
-        diceResult2 = diceResult2;
+        diceResult2 += 0;
       } else if ((selectedCircle.row === 7 || selectedCircle.row === 10 ) && selectedCircle.col === 2) {
         diceResult2 += 1;
         coeff += 1;
@@ -912,29 +827,29 @@ function App() {
       console.log('dice2 after position: ', diceResult2);
       if (((selectedCircle.row === 6 || selectedCircle.row === 7 || selectedCircle.row === 8 || selectedCircle.row === 9 || selectedCircle.row === 10 || selectedCircle.row === 11) && selectedCircle.col === 4) ||
       ((selectedCircle.row === 5 || selectedCircle.row === 6 || selectedCircle.row === 7 || selectedCircle.row === 8 || selectedCircle.row === 9 || selectedCircle.row === 10 || selectedCircle.row === 11 || selectedCircle.row === 12) && selectedCircle.col === 3)) {
-        if (selectedCircleInfo.skills.includes('Cannon')) {
+        if (selectedCircleInfo.skills?.includes('Cannon')) {
           diceResult2 += 1;
           coeff += 1;
-        } else if (selectedCircleInfo.skills.includes('Black Cannon')) {
+        } else if (selectedCircleInfo.skills?.includes('Black Cannon')) {
           diceResult2 +=2 ;
           coeff +=2 ;
         }
       }
       if (((selectedCircle.row === 6 || selectedCircle.row === 7 || selectedCircle.row === 8 || selectedCircle.row === 9 || selectedCircle.row === 10 || selectedCircle.row === 11) && selectedCircle.col === 2) ||
       (( selectedCircle.row === 7 || selectedCircle.row === 8 || selectedCircle.row === 9 || selectedCircle.row === 10 ) && selectedCircle.col === 1)) {
-        if (selectedCircleInfo.skills.includes('Viper')) {
+        if (selectedCircleInfo.skills?.includes('Viper')) {
           diceResult2 += 1;
           coeff += 1;
-        } else if (selectedCircleInfo.skills.includes('Black Viper')) {
+        } else if (selectedCircleInfo.skills?.includes('Black Viper')) {
           diceResult2 +=2 ;
           coeff +=2 ;
         }
       }
       console.log('dice2 after skills: ', diceResult2);
-      if (grid[8][0].skills.includes('Paw')) {
+      if (grid[8][0].skills?.includes('Paw')) {
         diceResult1 += 1;
         coeff -= 1;
-      } else if (grid[8][0].skills.includes('Black Paw')) {
+      } else if (grid[8][0].skills?.includes('Black Paw')) {
         diceResult1 += 2;
         coeff -= 2;
       }
@@ -1011,11 +926,11 @@ function App() {
         console.log('Distance: ', distance);
         if (selectedCircleInfo.team === 1) {
 
-        if (selectedCircleInfo.skills.includes('Playmaker')) {
+        if (selectedCircleInfo.skills?.includes('Playmaker')) {
           diceResult1 += 1;
           coeff -= 1;
           console.log('Playmaker bonus: ', diceResult1);
-        } else if (selectedCircleInfo.skills.includes('Black Playmaker')) {
+        } else if (selectedCircleInfo.skills?.includes('Black Playmaker')) {
           diceResult1 += 2;
           coeff -= 2;
           console.log('Black Playmaker bonus: ', diceResult1);
@@ -1104,11 +1019,11 @@ function App() {
           setSelectedCircle(null);
         }} else if (selectedCircleInfo.team === 2) {
 
-          if (selectedCircleInfo.skills.includes('Playmaker')) {
+          if (selectedCircleInfo.skills?.includes('Playmaker')) {
             diceResult2 += 1
             coeff += 1
             console.log('Playmaker bonus: ', diceResult2);
-          } else if (selectedCircleInfo.skills.includes('Black Playmaker')) {
+          } else if (selectedCircleInfo.skills?.includes('Black Playmaker')) {
             diceResult2 += 2
             coeff += 2
             console.log('Black Playmaker bonus: ', diceResult2);
@@ -1221,28 +1136,28 @@ function App() {
           let diceResult1 = dice1;
           let diceResult2 = dice2;
           console.log('dice 1 before add:', dice1, 'dice 2:', dice2);
-          if (selectedCircleInfo.skills.includes('Gladiator')) {
+          if (selectedCircleInfo.skills?.includes('Gladiator')) {
             if (selectedCircleInfo.team === 1) {
               diceResult1 += 1;
             } else if (selectedCircleInfo.team === 2) {
               diceResult2 += 1;
             }
           };
-          if (selectedCircleInfo.skills.includes('Black Gladiator')) {
+          if (selectedCircleInfo.skills?.includes('Black Gladiator')) {
             if (selectedCircleInfo.team === 1) {
               diceResult1 += 2;
             } else if (selectedCircleInfo.team === 2) {
               diceResult2 += 2;
             }
           };
-          if (clickedCircleInfo.skills.includes('Wizard')) {
+          if (clickedCircleInfo.skills?.includes('Wizard')) {
             if (clickedCircleInfo.team === 1) {
               diceResult1 += 1;
             } else if (clickedCircleInfo.team === 2) {
               diceResult2 += 1;
             }
           };
-          if (clickedCircleInfo.skills.includes('Black Wizard')) {
+          if (clickedCircleInfo.skills?.includes('Black Wizard')) {
             if (clickedCircleInfo.team === 1) {
               diceResult1 += 2;
             } else if (clickedCircleInfo.team === 2) {
@@ -1306,28 +1221,28 @@ function App() {
           let diceResult1 = dice1;
           let diceResult2 = dice2;
           console.log('dice 1 before add:', dice1, 'dice 2:', dice2);
-          if (selectedCircleInfo.skills.includes('Wizard')) {
+          if (selectedCircleInfo.skills?.includes('Wizard')) {
             if (selectedCircleInfo.team === 1) {
               diceResult1 += 1;
             } else if (selectedCircleInfo.team === 2) {
               diceResult2 += 1;
             }
           };
-          if (selectedCircleInfo.skills.includes('Black Wizard')) {
+          if (selectedCircleInfo.skills?.includes('Black Wizard')) {
             if (selectedCircleInfo.team === 1) {
               diceResult1 += 2;
             } else if (selectedCircleInfo.team === 2) {
               diceResult2 += 2;
             }
           };
-          if (clickedCircleInfo.skills.includes('Gladiator')) {
+          if (clickedCircleInfo.skills?.includes('Gladiator')) {
             if (clickedCircleInfo.team === 1) {
               diceResult1 += 1;
             } else if (clickedCircleInfo.team === 2) {
               diceResult2 += 1;
             }
           };
-          if (clickedCircleInfo.skills.includes('Black Gladiator')) {
+          if (clickedCircleInfo.skills?.includes('Black Gladiator')) {
             if (clickedCircleInfo.team === 1) {
               diceResult1 += 2;
             } else if (clickedCircleInfo.team === 2) {
@@ -1383,6 +1298,8 @@ function App() {
     console.log("Available squares after move:", getAvailableSquares(grid));
   };
   
+
+
   const isAdjacentSquare = (square1, square2) => {
     const rowDiff = (square1.row - square2.row);
     const colDiff = (square1.col - square2.col);
@@ -1406,7 +1323,8 @@ function App() {
       const selectedCircleTeam = grid[selectedCircle.row][selectedCircle.col]?.team;
       const selectedCircleHasBall = grid[selectedCircle.row][selectedCircle.col]?.hasBall;
       const selectedCircleSkills = grid[selectedCircle.row][selectedCircle.col]?.skills;
-    if (selectedCircleSkills.includes('Paw') || selectedCircleSkills.includes('Black Paw')) {
+      const selectedCircleGM = grid[selectedCircle.row][selectedCircle.col]?.gm;
+    if (selectedCircleSkills?.includes('Paw') || selectedCircleSkills?.includes('Black Paw')) {
       return availableSquares;
     };
       for (let i = 0; i < numRows; i++) {
@@ -1425,9 +1343,10 @@ function App() {
             isPathClear &&
             selectedCircleTeam === team &&
             groupMove &&
+            selectedCircleGM &&
             remainingMovements > 0 &&
             ((!selectedCircleHasBall &&
-              selectedCircleSkills.includes('Rabbit') &&
+              selectedCircleSkills?.includes('Rabbit') &&
             ((gmDirection === 1 && (row === 0 && (col === -1 || col === -2 || col === -3))) ||
             (gmDirection === 2 && ((row === 1 && col === -1) || (row === 2 && col === -2) || (row === 3 && col === -3))) ||
             (gmDirection === 3 && ((row === 1 || row === 2 || row === 3) && col === 0)) ||
@@ -1437,7 +1356,7 @@ function App() {
             (gmDirection === 7 && ((row === -1 || row === -2 || row === -3) && col === 0)) ||
             (gmDirection === 8 && ((row === -1 && col === -1) || (row === -2 && col === -2) || (row === -3 && col === -3))))) ||
             (((selectedCircleHasBall &&
-              selectedCircleSkills.includes('Rabbit')) ||
+              selectedCircleSkills?.includes('Rabbit')) ||
              (!selectedCircleHasBall)) &&
             ((gmDirection === 1 && (row === 0 && (col === -1 || col === -2))) ||
             (gmDirection === 2 && ((row === 1 && col === -1) || (row === 2 && col === -2))) ||
@@ -1448,7 +1367,7 @@ function App() {
             (gmDirection === 7 && ((row === -1 || row === -2) && col === 0)) ||
             (gmDirection === 8 && ((row === -1 && col === -1) || (row === -2 && col === -2))))) ||
             (((selectedCircleHasBall &&
-              !selectedCircleSkills.includes('Rabbit'))) &&
+              !selectedCircleSkills?.includes('Rabbit'))) &&
             ((gmDirection === 1 && (row === 0 && col === -1)) ||
             (gmDirection === 2 && (row === 1 && col === -1)) ||
             (gmDirection === 3 && (row === 1 && col === 0)) ||
@@ -1469,8 +1388,9 @@ function App() {
             selectedCircleTeam === team &&
             !selectedCircleHasBall &&
             !groupMove &&
-            selectedCircleSkills.includes('Rabbit') &&
-            (remainingMovements > 0 || (remainingMovements === 0 && selectedCircleSkills.includes('Tractor'))) &&
+            !selectedCircleGM &&
+            selectedCircleSkills?.includes('Rabbit') &&
+            (remainingMovements > 0 || (remainingMovements === 0 && selectedCircleSkills?.includes('Tractor'))) &&
             ((rowDiff === 1 && colDiff === 0) ||
               (rowDiff === 1 && colDiff === 1) ||
               (rowDiff === 0 && colDiff === 1) ||
@@ -1488,11 +1408,12 @@ function App() {
             !isDefaultOccupied &&
             isPathClear &&
             !groupMove &&
+            !selectedCircleGM &&
             selectedCircleTeam === team &&
-            (remainingMovements > 0 || (remainingMovements === 0 && selectedCircleSkills.includes('Tractor'))) &&
+            (remainingMovements > 0 || (remainingMovements === 0 && selectedCircleSkills?.includes('Tractor'))) &&
             (!selectedCircleHasBall ||
               (selectedCircleHasBall &&
-                selectedCircleSkills.includes('Rabbit')))&&
+                selectedCircleSkills?.includes('Rabbit')))&&
             ((rowDiff === 1 && colDiff === 0) ||
               (rowDiff === 1 && colDiff === 1) ||
               (rowDiff === 0 && colDiff === 1) ||
@@ -1506,11 +1427,12 @@ function App() {
             !isOccupied &&
             !isDefaultOccupied &&
             !groupMove &&
+            !selectedCircleGM &&
             isPathClear &&
             selectedCircleTeam === team &&
             selectedCircleHasBall &&
-            (remainingMovements > 0 || (remainingMovements === 0 && selectedCircleSkills.includes('Tractor'))) &&
-            !selectedCircleSkills.includes('Rabbit')&&
+            (remainingMovements > 0 || (remainingMovements === 0 && selectedCircleSkills?.includes('Tractor'))) &&
+            !selectedCircleSkills?.includes('Rabbit')&&
             ((rowDiff === 1 && colDiff === 0) ||
               (rowDiff === 1 && colDiff === 1) ||
               (rowDiff === 0 && colDiff === 1))
@@ -1713,6 +1635,8 @@ function App() {
   
   const finishGM = () => {
     setGroupMove(false);
+    setDisplayButtons('');
+    setGmDirection(0);
     setRemainingMovements(remainingMovements - 1);
     for (let i = 1; i < numRows; i++) {
       for (let j = 1; j < numCols; j++) {
@@ -1731,6 +1655,7 @@ function App() {
   }
 
   const dir = (d) => {
+    setDisplayButtons('finish');
     setGmDirection (d);
   }
 
@@ -1810,109 +1735,15 @@ function App() {
       <p>{team1AvgTck.toFixed(0)}% Tackling Efficiency {team2AvgTck.toFixed(0)}%</p>
       <p>{team1DribblesAttempts} ({team1DribblesCompleted}) Dribbles Attempted (Completed) {team2DribblesAttempts} ({team2DribblesCompleted})</p>
       <p>{team1AvgDrb.toFixed(0)}% Dribbling Efficiency {team2AvgDrb.toFixed(0)}%</p>
-      {/* {!isGameEnded && (
-        <p className='Action'>
-          Team {team} Action:
-          {((showTeamWithPossession === 1 && team === 1)||(showTeamWithPossession === 2 && team === 2))&&(
-            <>
-              <button onClick={handleShot}>Shot</button>
-              <button onClick={handlePass}>Pass</button>
-              <button onClick={handleDribble}>Dribble</button>
-            </>
-          )}
-          {((showTeamWithPossession === 1 && team === 2)||(showTeamWithPossession === 2 && team === 1)) && (
-            <>
-              <button onClick={handleTackle}>Tackle</button>
-            </>
-          )}
-          {showTeamDribblingButtons && (
-            <>
-            <select onChange={handleSelectedChange} value={selectedValue}>
-              <option>+6</option>
-              <option>+5</option>
-              <option>+4</option>
-              <option>+3</option>
-              <option>+2</option>
-              <option>+1</option>
-              <option>0</option>
-              <option>-1</option>
-              <option>-2</option>
-              <option>-3</option>
-              <option>-4</option>
-              <option>-5</option>
-            </select>
-              <button onClick={() => handleDribblingButtons(true)}>Success</button>
-              <button onClick={() => handleDribblingButtons(false)}>Failure</button>
-              <button onClick={() => handleCancel()}>Cancel</button>
-            </>
-          )}
-          {showTeamPassingButtons && (
-            <>
-              <select onChange={handlePassSelectedChange} value={passSelectedValue}>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-              </select>
-              <button onClick={() => handlePassingButtons(true)}>Complete</button>
-              <button onClick={() => handlePassingButtons(false)}>Incomplete</button>
-              <button onClick={() => handleCancel()}>Cancel</button>
-            </>
-          )}
-          {showTeamTacklingButtons && (
-            <>
-              <select onChange={handleSelectedChange} value={selectedValue}>
-              <option>+6</option>
-              <option>+5</option>
-              <option>+4</option>
-              <option>+3</option>
-              <option>+2</option>
-              <option>+1</option>
-              <option>0</option>
-              <option>-1</option>
-              <option>-2</option>
-              <option>-3</option>
-              <option>-4</option>
-              <option>-5</option>
-            </select>
-              <button onClick={() => handleTacklingButtons(true)}>Success</button>
-              <button onClick={() => handleTacklingButtons(false)}>Failure</button>
-              <button onClick={() => handleCancel()}>Cancel</button>
-            </>
-          )}
-          {showTeamShootingButtons && (
-            <>
-              <select onChange={handleSelectedChange} value={selectedValue}>
-              <option>6</option>
-              <option>5</option>
-              <option>4</option>
-              <option>3</option>
-              <option>2</option>
-              <option>1</option>
-              <option>0</option>
-              <option>-1</option>
-              <option>-2</option>
-              <option>-3</option>
-              <option>-4</option>
-              <option>-5</option>
-            </select>
-              <button onClick={() => handleShootingButtons(true)}>Goal</button>
-              <button onClick={() => handleShootingButtons(false)}>Save</button>
-              <button onClick={() => handleCancel()}>Cancel</button>
-          </>
-          )}
-        </p>
-          )}*/}
       <div>
       <p>Coefficient: {coeff}</p>
       <p>Original: Team 1 - {diceResult1} : {diceResult2} - Team 2</p>
       <p>Modified: Team 1 - {modDiceResult1} : {modDiceResult2} - Team 2</p>
     </div>
       <p>Team {teamWithPossession} has the ball</p>
-      <p>Direction: </p>
+      {displayButtons === 'dirButtons' && (
+        <>
+        <p>Direction: </p>
       <button onClick={() => dir(1)}>&#8594;</button>
       <button onClick={() => dir(2)}>&#8599;</button>
       <button onClick={() => dir(3)}>&#8593;</button>
@@ -1921,7 +1752,11 @@ function App() {
       <button onClick={() => dir(6)}>&#8601;</button>
       <button onClick={() => dir(7)}>&#8595;</button>
       <button onClick={() => dir(8)}>&#8600;</button>
-      <button onClick={finishGM}>Finish Group Movement</button>
+      </>
+      )}
+      {displayButtons === 'finish' && (
+        <button onClick={finishGM}>Finish Group Movement</button>
+      )}
       </>
       )}
       {displaySection === 'log' && (

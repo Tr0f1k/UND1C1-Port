@@ -85,6 +85,7 @@ div {
 .square {
   /*width: 60px;
   height: 40px;*/
+  position: relative;
   width: 4.5vw;
   height: 4.5vh;
   border: 1px solid #000;
@@ -215,9 +216,10 @@ div {
 
 .ball {
   position: absolute;
-  width: 3%;
-  height: 3%;
+  width: 60%;
+  height: 60%;
   background: url('./Ball/Ball.png') no-repeat center center;
+  transform: translate(-50%, -50%);
   background-size: contain;
 }
 
@@ -323,8 +325,26 @@ div {
   height: 1%;
 }
 
+.skillsPitch {
+  width: 10%;
+  height: 10%;
+}
+
 .rules {
   background-color: black;
   opacity: 85%;
   font-size: 12px;
+}
+
+.popup {
+  position: absolute;
+  width: 400%;
+  height: 400%;
+  top: -25vh; /* Adjust the value based on your preference */
+  background-color: black;
+  opacity: 85%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }

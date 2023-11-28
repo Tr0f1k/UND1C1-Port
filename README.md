@@ -78,6 +78,11 @@ There are still a lot of mechanincs that I have not implemented in this project.
 2) Added "Rules" button that displays the rules of the game
 3) Added the Turn and Move tracker under the score
 
+### 23/11/2023
+
+1) Fixed a bug when after triggering the group movement a player could make more than one movement at a time
+2) Removed some of unused methods
+
 # P.S.
 
 Again, I want to address the fact that this is intended only as a project to gain experience, and there was no personal gain in thought. If you'll like how this game works, consider checking it out via https://www.und1c1.com/ .
