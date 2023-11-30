@@ -201,7 +201,7 @@ function App() {
     if (!isPass){
       if (team === 1){
         setShowTeamWithPossession(2);
-        handleNextTurn();
+        setRemainingMovements(-1);
         setIsPossessionTeam1(!isPossessionTeam1);
         setTeamWithPossession(2);
         addMatchLogEntry(
@@ -210,7 +210,7 @@ function App() {
       }
       else if (team === 2){
         setShowTeamWithPossession(1);
-        handleNextTurn();
+        setRemainingMovements(-1);
         setIsPossessionTeam1(!isPossessionTeam1);
         setTeamWithPossession(1);
         addMatchLogEntry(
@@ -285,13 +285,13 @@ function App() {
     if (!isDribble) {
       if (team === 1) {
         setShowTeamWithPossession(2);
-        handleNextTurn();
+        setRemainingMovements(-1);
         setIsPossessionTeam1(!isPossessionTeam1);
         setTeamWithPossession(2);
       }
       else if (team === 2) {
         setShowTeamWithPossession(1)
-        handleNextTurn();
+        setRemainingMovements(-1);
         setIsPossessionTeam1(!isPossessionTeam1);
         setTeamWithPossession(1);
       }
@@ -1277,7 +1277,7 @@ function App() {
             newGrid[selectedCircle.row][selectedCircle.col] = {...clickedCircleInfo, hasBall: true};
             newGrid[row][col] = { ...selectedCircleInfo, hasBall: false, turnsDisabled: 8 };
             handleDribblingButtons(false);
-            handleNextTurn();
+            setSelectedCircle(null);
             setDiceResult1(dice1);
             setDiceResult2(dice2);
             setModDiceResult1(diceResult1);
@@ -1327,8 +1327,53 @@ function App() {
     if (selectedCircleSkills?.includes('Paw') || selectedCircleSkills?.includes('Black Paw')) {
       return availableSquares;
     };
+
+    const countCirclesInZone = (team, col1, col2) => {
+      let count = 0;
+      for (let i = 6; i <= 11; i++) {
+        for (let j = col1; j <= col2; j++) {
+          if (currentGrid[i][j]?.team === team) {
+            count++;
+          }
+        }
+      }
+      return count;
+    };
+
+    const isWithinExclusionZone = (row, col, team) => {
+      let count = countCirclesInZone(team, 1, 2);
+      if (
+        team === 1 &&
+        row >= 6 &&
+        row <= 11 &&
+        col >= 1 &&
+        col <= 2 &&
+        count >= 4 &&
+        !(selectedCircle.row >= 6 && selectedCircle.row <= 11 && selectedCircle.col >= 1 && selectedCircle.col <= 2)
+      ) {
+        return true;
+      } else {
+      count = countCirclesInZone(team, 13, 14);
+      if (
+        team === 2 &&
+        row >= 6 &&
+        row <= 11 &&
+        col >= 13 &&
+        col <= 14 &&
+        count >= 4 &&
+        !(selectedCircle.row >= 6 && selectedCircle.row <= 11 && selectedCircle.col >= 13 && selectedCircle.col <= 14)
+      ) {
+        return true;
+      }}
+      return false;
+    };
+
+
       for (let i = 0; i < numRows; i++) {
         for (let j = 0; j < numCols; j++) {
+          if ((i === 9 && j === 0) || (i === 8 && j === 15)) {
+            continue;
+        }
           const rowDiff = Math.abs(selectedCircle.row - i);
           const colDiff = Math.abs(selectedCircle.col - j);
           const row = selectedCircle.row - i;
@@ -1338,6 +1383,7 @@ function App() {
           const isDefaultOccupied = isDefaultOccupiedSquare(i, j);
 
           if (
+            !isWithinExclusionZone(i, j, selectedCircleTeam) &&
             !isOccupied &&
             !isDefaultOccupied &&
             isPathClear &&
@@ -1382,6 +1428,7 @@ function App() {
           } 
 
           if (
+            !isWithinExclusionZone(i, j, selectedCircleTeam) &&
             !isOccupied &&
             !isDefaultOccupied &&
             isPathClear &&
@@ -1404,6 +1451,7 @@ function App() {
             const square = { row: i, col: j };  
             availableSquares.push(square);
           } else if (
+            !isWithinExclusionZone(i, j, selectedCircleTeam) &&
             !isOccupied &&
             !isDefaultOccupied &&
             isPathClear &&
@@ -1424,6 +1472,7 @@ function App() {
             const square = { row: i, col: j };  
             availableSquares.push(square);
           } else if (
+            !isWithinExclusionZone(i, j, selectedCircleTeam) &&
             !isOccupied &&
             !isDefaultOccupied &&
             !groupMove &&
@@ -1437,7 +1486,7 @@ function App() {
               (rowDiff === 1 && colDiff === 1) ||
               (rowDiff === 0 && colDiff === 1))
           ) {
-            const square = { row: i, col: j };  
+            const square = { row: i, col: j };
             availableSquares.push(square);
           }
         }

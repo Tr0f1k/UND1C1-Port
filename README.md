@@ -83,6 +83,11 @@ There are still a lot of mechanincs that I have not implemented in this project.
 1) Fixed a bug when after triggering the group movement a player could make more than one movement at a time
 2) Removed some of unused methods
 
+## 29/11/2023
+
+1) Restricted the amount of players in the penalty box for a defending team. Now you can have max. 4 players in your penalty box
+2) Fixed the bug when the players could move on the square intended for shooting
+
 # P.S.
 
 Again, I want to address the fact that this is intended only as a project to gain experience, and there was no personal gain in thought. If you'll like how this game works, consider checking it out via https://www.und1c1.com/ .
