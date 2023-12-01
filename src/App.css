@@ -330,6 +330,19 @@ div {
   height: 10%;
 }
 
+.whiteLock {
+  background-color: aliceblue;
+}
+
+.blackLock {
+  background-color: black;
+}
+
+.locks {
+  background-color: aquamarine;
+  opacity: 40%;
+}
+
 .rules {
   background-color: black;
   opacity: 85%;

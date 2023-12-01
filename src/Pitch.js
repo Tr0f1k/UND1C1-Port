@@ -16,7 +16,7 @@ import BlackViper from './Skills/black-viper.png'
 import Cannon from './Skills/cannon.png'
 import BlackCannon from './Skills/black-cannon.png'
 
-const Pitch = ({ grid, team, handleSquareClick, availableSquares, selectedCircle, availablePassing, availableTackling, availableDribbling, availableShooting, remainingMovements }) => {
+const Pitch = ({ grid, team, handleSquareClick, availableSquares, selectedCircle, availablePassing, availableTackling, availableDribbling, availableShooting, remainingMovements, whiteLock, blackLock, locks }) => {
 
   /*const [hoveredSquare, setHoveredSquare] = useState(null);
 
@@ -69,10 +69,22 @@ const Pitch = ({ grid, team, handleSquareClick, availableSquares, selectedCircle
                 ? 'tackling'
                 : ''
             } ${
-              availableDribbling.some(
+              whiteLock.some(
                 (square) => square.row === rowIndex && square.col === colIndex
               )
-                ? 'dribbling'
+                ? 'whiteLock'
+                : ''
+            } ${
+              locks.some(
+                (square) => square.row === rowIndex && square.col === colIndex
+              )
+                ? 'locks'
+                : ''
+            } ${
+              blackLock.some(
+                (square) => square.row === rowIndex && square.col === colIndex
+              )
+                ? 'blackLock'
                 : ''
             } ${
               square && square.turnsDisabled > 1

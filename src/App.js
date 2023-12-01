@@ -45,6 +45,10 @@ function App() {
   const [gmDirection, setGmDirection] = useState(0);
   const [groupMove, setGroupMove] = useState(false);
   const [displayButtons, setDisplayButtons] = useState(false);
+  const [lockedSquares, setLockedSquares] = useState([]);
+
+  const [whiteLock, setWhiteLock] = useState([]);
+  const [blackLock, setBlackLock] = useState([]);
   
 
   
@@ -646,6 +650,22 @@ function App() {
       setSelectedCircle(null);
       setPassing(false); // Reset passing state if needed
       return;
+    }
+
+    const isSquareInLocks = locks.some((lock) => lock.row === row && lock.col === col);
+
+    if (remainingMovements === -1 && isSquareInLocks) {
+      whiteLock.pop();
+      blackLock.pop();
+      whiteLock.push({ row, col });
+      console.log('White lock at: ', whiteLock);
+      setRemainingMovements(remainingMovements - 1);
+    }
+
+    if (remainingMovements === -2 && isSquareInLocks) {
+      blackLock.push({ row, col });
+      console.log('Black lock at:', blackLock);
+      setRemainingMovements(remainingMovements - 1);
     }
 
     if (selectedCircle) {
@@ -1287,7 +1307,9 @@ function App() {
         }
       }
     }
-    } else if (grid[row]?.[col]) {
+    }
+    
+    else if (grid[row]?.[col]) {
       console.log("Selecting circle...");
       setSelectedCircle({ row, col });
       setPassing(grid[row][col]?.hasBall);
@@ -1298,7 +1320,69 @@ function App() {
     console.log("Available squares after move:", getAvailableSquares(grid));
   };
   
+  const isAdjacentForLocks = (currentGrid) => {
+    let locks = [];
+    const players = [];
+    if (remainingMovements < 0 && remainingMovements > -3) {
+    for (let i = 1; i < numRows; i++) {
+      for (let j = 1; j < numCols; j++) {
+        const player = currentGrid[i]?.[j];
+        const playerTeam = currentGrid[i][j]?.team;
+        const playerSkill = currentGrid[i][j]?.skills;
+        const up = i - 1;
+        const down = i + 1;
+        const left = j - 1;
+        const right = j + 1;
+        if (player){
+          players.push({ row: i, col: j });
+        }
+        if (playerTeam === team && !(playerSkill?.includes('Paw') || playerSkill?.includes('Black Paw'))) {
+          locks.push({ row: up, col: j });
+          locks.push({ row: down, col: j });
+          locks.push({ row: i, col: left });
+          locks.push({ row: i, col: right });
+          locks.push({ row: up, col: right });
+          locks.push({ row: up, col: left });
+          locks.push({ row: down, col: right });
+          locks.push({ row: down, col: left });
+        }
+      }
+    }
+    locks = locks.filter((lock) => lock.row !== 0 && lock.col !== 0);
 
+    if (
+      whiteLock.some(
+          (lock) => lock.row >= 6 && lock.row <= 11 && lock.col >= 1 && lock.col <= 2
+      )
+  ) {
+      // Remove other squares within the specified range
+      locks = locks.filter(
+          (lock) => !(lock.row >= 6 && lock.row <= 11 && lock.col >= 1 && lock.col <= 2)
+      );
+  }
+  if (
+    whiteLock.some(
+        (lock) => lock.row >= 6 && lock.row <= 11 && lock.col >= 13 && lock.col <= 14
+    )
+) {
+    // Remove other squares within the specified range
+    locks = locks.filter(
+        (lock) => !(lock.row >= 6 && lock.row <= 11 && lock.col >= 13 && lock.col <= 14)
+    );
+}
+  }
+
+  for (let i = 0; i < players.length; i++) {
+    const player = players[i];
+    locks = locks.filter((lock) => !(lock.row === player.row && lock.col === player.col));
+  }
+  if (remainingMovements < -1) {
+    return locks.filter((lock) => !(whiteLock.some((wlock) => wlock.row === lock.row && wlock.col === lock.col)));
+  }
+  
+  console.log('Available for locks:', locks)
+    return locks;
+  }
 
   const isAdjacentSquare = (square1, square2) => {
     const rowDiff = (square1.row - square2.row);
@@ -1373,6 +1457,23 @@ function App() {
         for (let j = 0; j < numCols; j++) {
           if ((i === 9 && j === 0) || (i === 8 && j === 15)) {
             continue;
+        }
+        if (blackLock.some(block => block.row === i && block.col === j)) {
+          continue;
+        }
+
+        if (whiteLock.some(wlock => wlock.row === i && wlock.col === j)) {
+          continue
+        }
+
+        if (!isPathClearFromLockedSquares(selectedCircle, { row: i, col: j }, blackLock)) {
+          continue;
+        }
+
+        if (!isPathClearFromLockedSquares(selectedCircle, { row: i, col: j }, whiteLock) && 
+        !selectedCircleSkills?.includes('Gorilla') &&
+        !selectedCircleHasBall) {
+          continue;
         }
           const rowDiff = Math.abs(selectedCircle.row - i);
           const colDiff = Math.abs(selectedCircle.col - j);
@@ -1663,6 +1764,25 @@ function App() {
     return [];
   };
 
+  const isPathClearFromLockedSquares = (start, end, lockedSquares) => {
+    const rowDiff = Math.abs(start.row - end.row);
+    const colDiff = Math.abs(start.col - end.col);
+    const step = Math.max(rowDiff, colDiff);
+  
+    for (let i = 1; i <= step; i++) {
+      const interpRow = Math.round(start.row + i / step * (end.row - start.row));
+      const interpCol = Math.round(start.col + i / step * (end.col - start.col));
+  
+      // Check if the current square is in lockedSquares array
+      if (lockedSquares.some(lock => lock.row === interpRow && lock.col === interpCol)) {
+        return false; // Locked square in the path
+      }
+    }
+  
+    return true; // Path is clear
+  };
+  
+
   const isPathClearBetweenSelectedAndSquare = (square, currentGrid) => {
     const start = selectedCircle;
     const end = square;
@@ -1713,6 +1833,7 @@ function App() {
   const availableTackling = getAvailableTacklingSquares(grid);
   const availableDribbling = getAvailableDribblingSquares(grid);
   const availableShooting = getAvailableShootingSquares(grid);
+  const locks = isAdjacentForLocks(grid);
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -1750,6 +1871,9 @@ function App() {
   availableShooting={availableShooting}
   remainingMovements={remainingMovements}
   team={team}
+  whiteLock={whiteLock}
+  blackLock={blackLock}
+  locks={locks}
 />
 
     </div>

@@ -88,6 +88,16 @@ There are still a lot of mechanincs that I have not implemented in this project.
 1) Restricted the amount of players in the penalty box for a defending team. Now you can have max. 4 players in your penalty box
 2) Fixed the bug when the players could move on the square intended for shooting
 
+## 01/12/2023
+
+Added functionality for locks. They work like this:
+1) At the end of the turn, player 1 can put two locks on the field: white and black. He can put those locks next to his players
+2) Players of player 2 cannot go through black locks, and only players who have "Gorilla" skill and do not have the ball can go through the white lock
+3) After player 2 finishes his turn, previous locks dissapear and he can put his own locks
+4) You are not allowed to put more than 1 lock in penalty box
+
+Squares available for putting a lock in it have aquamarine background. White lock has background of color "aliceblue" and black lock has black color
+
 # P.S.
 
 Again, I want to address the fact that this is intended only as a project to gain experience, and there was no personal gain in thought. If you'll like how this game works, consider checking it out via https://www.und1c1.com/ .
