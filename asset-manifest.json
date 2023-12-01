@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/UND1C1-Port/static/css/main.9152ad69.css",
-    "main.js": "/UND1C1-Port/static/js/main.83264573.js",
+    "main.css": "/UND1C1-Port/static/css/main.ef0483b9.css",
+    "main.js": "/UND1C1-Port/static/js/main.e059067c.js",
     "static/js/787.e678c093.chunk.js": "/UND1C1-Port/static/js/787.e678c093.chunk.js",
     "static/media/VanBindelrooy.png": "/UND1C1-Port/static/media/VanBindelrooy.c4f3107c3b3e83112a35.png",
     "static/media/Radolno.png": "/UND1C1-Port/static/media/Radolno.1bf758a196dbbff3c49e.png",
@@ -27,12 +27,12 @@
     "static/media/Bronze.png": "/UND1C1-Port/static/media/Bronze.9927aaff6aa876a35bb8.png",
     "static/media/Ball.png": "/UND1C1-Port/static/media/Ball.966ecd3b8cc53a930c28.png",
     "index.html": "/UND1C1-Port/index.html",
-    "main.9152ad69.css.map": "/UND1C1-Port/static/css/main.9152ad69.css.map",
-    "main.83264573.js.map": "/UND1C1-Port/static/js/main.83264573.js.map",
+    "main.ef0483b9.css.map": "/UND1C1-Port/static/css/main.ef0483b9.css.map",
+    "main.e059067c.js.map": "/UND1C1-Port/static/js/main.e059067c.js.map",
     "787.e678c093.chunk.js.map": "/UND1C1-Port/static/js/787.e678c093.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9152ad69.css",
-    "static/js/main.83264573.js"
+    "static/css/main.ef0483b9.css",
+    "static/js/main.e059067c.js"
   ]
 }
