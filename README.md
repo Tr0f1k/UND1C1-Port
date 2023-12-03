@@ -5,6 +5,9 @@ This is a port of a tabletop game about football named 'UND1C1'. I have no right
 ## Trying it out
 You can try out this program via GitHub Pages via this link: https://tr0f1k.github.io/UND1C1-Port/
 
+## Before We Start:
+Before we start it is important to mention that there was no major design work done so far. My main focus right now is to get all the mechanics working
+
 ## How It Works:
 
 The goal of "UND1C1" is simple: like in real footbal, you have to score more goals than your opponent to win. Each turn, a player can make three moves. He can:
@@ -97,6 +100,13 @@ Added functionality for locks. They work like this:
 4) You are not allowed to put more than 1 lock in penalty box
 
 Squares available for putting a lock in it have aquamarine background. White lock has background of color "aliceblue" and black lock has black color
+
+## 03/12/2023
+
+1) Fixed a bug when it was possible for user to put a lock out of bounds
+2) Added the rule that the only available action at kickoff is pass (no difficulty checks needed, it always go through)
+3) Fixed a bug when the squares with players available to dribble through were not changing background to blue
+4) After clicking on a player, information about his skills will appear under the stats. More improvements to come
 
 # P.S.
 

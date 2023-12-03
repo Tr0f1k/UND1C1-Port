@@ -69,6 +69,12 @@ const Pitch = ({ grid, team, handleSquareClick, availableSquares, selectedCircle
                 ? 'tackling'
                 : ''
             } ${
+              availableDribbling.some(
+                (square) => square.row === rowIndex && square.col === colIndex
+              )
+                ? 'dribbling'
+                : ''
+            } ${
               whiteLock.some(
                 (square) => square.row === rowIndex && square.col === colIndex
               )

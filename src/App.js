@@ -2,6 +2,20 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import Rules from './Rules'
 import Pitch from './Pitch'
+import Viper from './Skills/viper.png'
+import Rabbit from './Skills/rabbit.png'
+import Paw from './Skills/paw.png'
+import BlackPaw from './Skills/black-paw.png'
+import Tractor from './Skills/tractor.png'
+import Playmaker from './Skills/playmaker.png'
+import BlackPlaymaker from './Skills/black-playmaker.png'
+import Wizard from './Skills/wizard.png'
+import BlackWizard from './Skills/black-wizard.png'
+import Gladiator from './Skills/gladiator.png'
+import BlackGladiator from './Skills/black-gladiator.png'
+import BlackViper from './Skills/black-viper.png'
+import Cannon from './Skills/cannon.png'
+import BlackCannon from './Skills/black-cannon.png'
 
 function App() {
   const [turn, setTurn] = useState(1);
@@ -45,10 +59,12 @@ function App() {
   const [gmDirection, setGmDirection] = useState(0);
   const [groupMove, setGroupMove] = useState(false);
   const [displayButtons, setDisplayButtons] = useState(false);
-  const [lockedSquares, setLockedSquares] = useState([]);
-
   const [whiteLock, setWhiteLock] = useState([]);
   const [blackLock, setBlackLock] = useState([]);
+  const [onlyPass, setOnlyPass] = useState(true);
+  const [onlyMovement, setOnlyMovement] = useState(0);
+  const [playerName, setPlayerName] = useState([]);
+  const [playerSkills, setPlayerSkills] = useState([]);
   
 
   
@@ -99,11 +115,13 @@ function App() {
     if (isGoal) {
       if (team === 1) {
         setTeam1Goals(team1Goals + 1);
+        handleNextTurn();
         addMatchLogEntry(
           `Turn ${turn} Team ${team}: Team ${team} scores a goal after a shot with ${xGValues[selectedValue].toFixed(2)} xG! (automatic turn change)`
         );
       } else if (team === 2) {
         setTeam2Goals(team2Goals + 1);
+        handleNextTurn();
         addMatchLogEntry(
           `Turn ${turn} Team ${team}: Team ${team} scores a goal after a shot with ${xGValues[selectedValue].toFixed(2)} xG! (automatic turn change)`
         );
@@ -114,25 +132,25 @@ function App() {
       //setTeam1xG(team1xG + xGValues[selectedValue]);
       setTeam1Shots(team1Shots + 1);
       setShowTeamWithPossession(2);
-      handleNextTurn();
       setIsPossessionTeam1(!isPossessionTeam1);
       setTeamWithPossession(2);
     } else if (team === 2) {
       //setTeam2xG(team2xG + xGValues[selectedValue]);
       setTeam2Shots(team2Shots + 1);
       setShowTeamWithPossession(1);
-      handleNextTurn();
       setIsPossessionTeam1(!isPossessionTeam1);
       setTeamWithPossession(1);
     }
 
     if (!isGoal) {
       if (team === 1) {
+        setRemainingMovements(-1);
         addMatchLogEntry(
           `Turn ${turn} Team ${team}: Team ${team} misses a chance to score after a shot with ${xGValues[selectedValue].toFixed(2)} xG! (automatic turn change)`
         );
       }
       else if (team === 2) {
+        setRemainingMovements(-1);
         addMatchLogEntry(
           `Turn ${turn} Team ${team}: Team ${team} misses a chance to score after a shot with ${xGValues[selectedValue].toFixed(2)} xG! (automatic turn change)`
         );
@@ -533,7 +551,10 @@ function App() {
   const handleSquareClick = (row, col) => {
     console.log(`Clicked square: ${row} ${col}`);
     const clickedCircleInfo = grid[row]?.[col];
+    setPlayerName(clickedCircleInfo?.name);
+    setPlayerSkills(clickedCircleInfo?.skills);
 
+    if (!onlyPass) {
     if ((row === 0 || row === 17) && remainingMovements > 0){
       setGroupMove(true);
       setDisplayButtons('dirButtons');
@@ -643,11 +664,14 @@ function App() {
         }
       }
     }
+  }
     };
 
     if (selectedCircle && selectedCircle.row === row && selectedCircle.col === col) {
       console.log("Clicked on the same circle. Reverting selection.");
       setSelectedCircle(null);
+      setPlayerName([]);
+      setPlayerSkills([]);
       setPassing(false); // Reset passing state if needed
       return;
     }
@@ -773,6 +797,9 @@ function App() {
             setModDiceResult2(diceResult2);
       setRemainingMovements(3);
       setSelectedCircle(null);
+      setOnlyPass(true);
+      whiteLock.pop();
+      blackLock.pop();
       return team1GoalGrid;
     } else if ((selectedCircleInfo.team === 1 && (diceResult2 > diceResult1)) ||
       (selectedCircleInfo.team === 2 && (diceResult1 > diceResult2))) {
@@ -891,6 +918,9 @@ function App() {
                       setModDiceResult2(diceResult2);
                 setRemainingMovements(3);
                 setSelectedCircle(null);
+                setOnlyPass(true);
+                whiteLock.pop();
+                blackLock.pop();
                 return team2GoalGrid;}
       else if ((selectedCircleInfo.team === 1 && (diceResult2 > diceResult1)) ||
       (selectedCircleInfo.team === 2 && (diceResult1 > diceResult2))) {
@@ -944,7 +974,22 @@ function App() {
         const distance = ((Math.abs(selectedCircle.row - row) + Math.abs(selectedCircle.col - col))/5).toFixed(0);
         coeff = distance * 1;
         console.log('Distance: ', distance);
-        if (selectedCircleInfo.team === 1) {
+        if (onlyPass) {
+          setGrid((prevGrid) => {
+            const newGrid = [...prevGrid];
+            newGrid[selectedCircle.row][selectedCircle.col] = { ...selectedCircleInfo, hasBall: false };
+            newGrid[row][col] = { ...clickedCircleInfo, hasBall: true };
+            handlePassingButtons(true);
+            return newGrid;
+          });
+          setDiceResult1(dice1);
+          setModDiceResult1(diceResult1);
+          setCoeff(coeff);
+          setPassing(false); // Reset passing state after a successful pass
+          setRemainingMovements(remainingMovements - 1);
+          setSelectedCircle(null);
+          setOnlyPass(false);
+        } else if (selectedCircleInfo.team === 1) {
 
         if (selectedCircleInfo.skills?.includes('Playmaker')) {
           diceResult1 += 1;
@@ -1216,7 +1261,7 @@ function App() {
       return newGrid;
     });
   }
-        } else if (!isOccupied && isPathClearBetween && isSquareAvailable && selectedCircleInfo.team === team) {
+        } else if (!isOccupied && !onlyPass && isPathClearBetween && isSquareAvailable && selectedCircleInfo.team === team) {
           console.log("Moving...");
           // Handle movement
           setGrid((prevGrid) => {
@@ -1348,7 +1393,7 @@ function App() {
         }
       }
     }
-    locks = locks.filter((lock) => lock.row !== 0 && lock.col !== 0);
+    locks = locks.filter((lock) => lock.row !== 0 && lock.col !== 0 && lock.col !== 15);
 
     if (
       whiteLock.some(
@@ -1397,7 +1442,7 @@ function App() {
   };
   
   const getAvailableSquares = (currentGrid) => {
-    if (remainingMovements >= 0 && selectedCircle) {
+    if (remainingMovements >= 0 && selectedCircle && !onlyPass) {
       const availableSquares = [];
       const selectedCircleTurnsDisabled = grid[selectedCircle.row][selectedCircle.col]?.turnsDisabled;
       console.log('sel cir: ', selectedCircleTurnsDisabled);
@@ -1904,9 +1949,9 @@ function App() {
       <p>{team1Pos.toFixed(0)}% Possession {team2Pos.toFixed(0)}%</p>
       <p>{team1PassesAttempts} ({team1PassesCompleted}) Passes Attempts (Completed) {team2PassesAttempts} ({team2PassesCompleted})</p>
       <p>{team1AvgAcc.toFixed(0)}% Passes Accuracy {team2AvgAcc.toFixed(0)}%</p>
-      <p>{team1TacklesAttempts} ({team1TacklesCompleted}) Tackles Attempted (Completed) {team2TacklesAttempts} ({team2TacklesCompleted})</p>
+      <p>{team1TacklesAttempts} ({team1TacklesCompleted}) Tackles Attempts (Completes) {team2TacklesAttempts} ({team2TacklesCompleted})</p>
       <p>{team1AvgTck.toFixed(0)}% Tackling Efficiency {team2AvgTck.toFixed(0)}%</p>
-      <p>{team1DribblesAttempts} ({team1DribblesCompleted}) Dribbles Attempted (Completed) {team2DribblesAttempts} ({team2DribblesCompleted})</p>
+      <p>{team1DribblesAttempts} ({team1DribblesCompleted}) Dribbles Attempts (Completes) {team2DribblesAttempts} ({team2DribblesCompleted})</p>
       <p>{team1AvgDrb.toFixed(0)}% Dribbling Efficiency {team2AvgDrb.toFixed(0)}%</p>
       <div>
       <p>Coefficient: {coeff}</p>
@@ -1914,6 +1959,37 @@ function App() {
       <p>Modified: Team 1 - {modDiceResult1} : {modDiceResult2} - Team 2</p>
     </div>
       <p>Team {teamWithPossession} has the ball</p>
+      <p>{playerName}</p>
+      <p>{playerSkills?.includes('Rabbit') && (<img src={Rabbit} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Tractor') && (<img src={Tractor} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Viper') && (<img src={Viper} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Black Viper') && (<img src={BlackViper} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Cannon') && (<img src={Cannon} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Black Cannon') && (<img src={BlackCannon} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Playmaker') && (<img src={Playmaker} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Black Playmaker') && (<img src={BlackPlaymaker} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Wizard') && (<img src={Wizard} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Black Wizard') && (<img src={BlackWizard} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Gladiator') && (<img src={Gladiator} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Black Gladiator') && (<img src={BlackGladiator} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Paw') && (<img src={Paw} className='skillsPitch'></img>)}
+      {playerSkills?.includes('Black Paw') && (<img src={BlackPaw} className='skillsPitch'></img>)}
+      </p>
+      <p>{playerSkills?.includes('Rabbit') && (<div>+1 Movement</div>)}
+      {playerSkills?.includes('Tractor') && (<div>Move at the end of turn</div>)}
+      {playerSkills?.includes('Viper') && (<div>+1 Shooting in the box</div>)}
+      {playerSkills?.includes('Black Viper') && (<div>+2 Shooting in box</div>)}
+      {playerSkills?.includes('Cannon') && (<div>+1 Shooting outside the box</div>)}
+      {playerSkills?.includes('Black Cannon') && (<div>+2 Shooting outside the box</div>)}
+      {playerSkills?.includes('Playmaker') && (<div>+1 Passes</div>)}
+      {playerSkills?.includes('Black Playmaker') && (<div>+2 Passes</div>)}
+      {playerSkills?.includes('Wizard') && (<div>+1 Dribble</div>)}
+      {playerSkills?.includes('Black Wizard') && (<div>+2 Dribble</div>)}
+      {playerSkills?.includes('Gladiator') && (<div>+1 Tackle</div>)}
+      {playerSkills?.includes('Black Gladiator') && (<div>+2 Tackle</div>)}
+      {playerSkills?.includes('Paw') && (<div>+1 Saves</div>)}
+      {playerSkills?.includes('Black Paw') && (<div>+2 Saves</div>)}
+      </p>
       {displayButtons === 'dirButtons' && (
         <>
         <p>Direction: </p>
