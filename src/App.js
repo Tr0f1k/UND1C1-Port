@@ -65,6 +65,8 @@ function App() {
   const [onlyMovement, setOnlyMovement] = useState(0);
   const [playerName, setPlayerName] = useState([]);
   const [playerSkills, setPlayerSkills] = useState([]);
+  const [at, setAt] = useState(false);
+  const [drib, setDrib] = useState(false);
   
 
   
@@ -307,13 +309,11 @@ function App() {
     if (!isDribble) {
       if (team === 1) {
         setShowTeamWithPossession(2);
-        setRemainingMovements(-1);
         setIsPossessionTeam1(!isPossessionTeam1);
         setTeamWithPossession(2);
       }
       else if (team === 2) {
         setShowTeamWithPossession(1)
-        setRemainingMovements(-1);
         setIsPossessionTeam1(!isPossessionTeam1);
         setTeamWithPossession(1);
       }
@@ -338,81 +338,81 @@ function App() {
     
     const newGrid = Array.from({ length: numRows }, () => Array(numCols).fill(null));
     // Set circles in specific squares
-    newGrid[8][0] = { team: 1, name: 'VonMeerSalz', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Black Paw', 'Gladiator', 'Playmaker'] };
-    newGrid[2][4] = { team: 1, name: 'CRadolno', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Rabbit', 'Viper', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
-    newGrid[15][4] = {team: 1, name: 'Art', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Rabbit', 'Playmaker', 'Wizard']};
-    newGrid[9][3] = {team: 1, name: 'Keens', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Black Gladiator', 'Playmaker']};
-    newGrid[7][7] = {team: 1, name: 'VanBindelrooy', hasBall: true, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Wizard', 'Black Viper', 'Black Cannon', 'Ram']};
-    newGrid[9][6] = {team: 1, name: 'Romeny', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Rabbit', 'Wizard', 'Viper', 'Black Cannon']};
-    newGrid[8][3] = {team: 1, name: 'Shovels', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon', 'Ram']};
-    newGrid[3][2] = {team: 1, name: 'Bronze', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Gladiator']};
-    newGrid[7][2] = {team: 1, name: 'Silberves', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Tractor', 'Gladiator']};
-    newGrid[10][2] = {team: 1, name: 'Fremant', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Tractor', 'Black Gladiator', 'Playmaker', 'Ram']};
-    newGrid[14][2] = {team: 1, name: 'Hentz', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Gladiator', 'Archer', 'Ram']};
-    newGrid[9][15] = { team: 2, name: 'Marsillas', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Black Paw', 'Black Gladiator'] };
-    newGrid[6][11] = { team: 2, name: 'Ziderm', hasBall: false, turnsDisabled: 0, gm: false, skills: [ 'Tractor', 'Black Playmaker', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
-    newGrid[7][13] = { team: 2, name: 'Rasmoz', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Gladiator', 'Ram'] };
-    newGrid[7][9] = { team: 2, name: 'Radolno', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Rabbit', 'Black Wizard', 'Black Cannon', 'Black Viper'] };
-    newGrid[10][13] = { team: 2, name: 'Boomwhale', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gladiator', 'Ram'] };
-    newGrid[3][13] = { team: 2, name: 'Santiago', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Wizard'] };
-    newGrid[14][13] = { team: 2, name: 'Larcos', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Rabbit', 'Black Archer', 'Wizard', 'Black Cannon'] };
-    newGrid[11][11] = { team: 2, name: 'Yuti', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Black Playmaker', 'Archer', 'Wizard'] };
-    newGrid[8][12] = { team: 2, name: 'Gammelsen', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Gorilla', 'Gladiator', 'Canon'] };
-    newGrid[9][12] = { team: 2, name: 'Backpam', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon'] };
-    newGrid[9][9] = { team: 2, name: 'Rajol', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Playmaker', 'Wizard', 'Black Viper'] };
+    newGrid[8][0] = { team: 1, name: 'VonMeerSalz', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Black Paw', 'Gladiator', 'Playmaker'] };
+    newGrid[2][4] = { team: 1, name: 'CRadolno', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Rabbit', 'Viper', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
+    newGrid[15][4] = {team: 1, name: 'Art', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Rabbit', 'Playmaker', 'Wizard']};
+    newGrid[9][3] = {team: 1, name: 'Keens', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Black Gladiator', 'Playmaker']};
+    newGrid[7][7] = {team: 1, name: 'VanBindelrooy', hasBall: true, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Wizard', 'Black Viper', 'Black Cannon', 'Ram']};
+    newGrid[9][6] = {team: 1, name: 'Romeny', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Rabbit', 'Wizard', 'Viper', 'Black Cannon']};
+    newGrid[8][3] = {team: 1, name: 'Shovels', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon', 'Ram']};
+    newGrid[3][2] = {team: 1, name: 'Bronze', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Gladiator']};
+    newGrid[7][2] = {team: 1, name: 'Silberves', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Tractor', 'Gladiator']};
+    newGrid[10][2] = {team: 1, name: 'Fremant', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Tractor', 'Black Gladiator', 'Playmaker', 'Ram']};
+    newGrid[14][2] = {team: 1, name: 'Hentz', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Gladiator', 'Archer', 'Ram']};
+    newGrid[9][15] = { team: 2, name: 'Marsillas', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Black Paw', 'Black Gladiator'] };
+    newGrid[6][11] = { team: 2, name: 'Ziderm', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: [ 'Tractor', 'Black Playmaker', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
+    newGrid[7][13] = { team: 2, name: 'Rasmoz', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Gladiator', 'Ram'] };
+    newGrid[7][9] = { team: 2, name: 'Radolno', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Rabbit', 'Black Wizard', 'Black Cannon', 'Black Viper'] };
+    newGrid[10][13] = { team: 2, name: 'Boomwhale', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gladiator', 'Ram'] };
+    newGrid[3][13] = { team: 2, name: 'Santiago', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Wizard'] };
+    newGrid[14][13] = { team: 2, name: 'Larcos', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Rabbit', 'Black Archer', 'Wizard', 'Black Cannon'] };
+    newGrid[11][11] = { team: 2, name: 'Yuti', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Black Playmaker', 'Archer', 'Wizard'] };
+    newGrid[8][12] = { team: 2, name: 'Gammelsen', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Gorilla', 'Gladiator', 'Canon'] };
+    newGrid[9][12] = { team: 2, name: 'Backpam', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon'] };
+    newGrid[9][9] = { team: 2, name: 'Rajol', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Playmaker', 'Wizard', 'Black Viper'] };
 
     setGrid(newGrid);
   }, [numRows, numCols]);
 
   const team1GoalGrid = Array.from({ length: numRows }, () => Array(numCols).fill(null));
 
-    team1GoalGrid[8][0] = { team: 1, name: 'VonMeerSalz', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Black Paw', 'Gladiator', 'Playmaker'] }
-    team1GoalGrid[2][4] = { team: 1, name: 'CRadolno', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Rabbit', 'Viper', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
-    team1GoalGrid[15][4] = {team: 1, name: 'Art', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Rabbit', 'Playmaker', 'Wizard']};
-    team1GoalGrid[9][3] = {team: 1, name: 'Keens', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Black Gladiator', 'Playmaker']};
-    team1GoalGrid[7][6] = {team: 1, name: 'VanBindelrooy', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Wizard', 'Black Viper', 'Black Cannon', 'Ram']};
-    team1GoalGrid[9][6] = {team: 1, name: 'Romeny', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Rabbit', 'Wizard', 'Viper', 'Black Cannon']};
-    team1GoalGrid[8][3] = {team: 1, name: 'Shovels', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon', 'Ram']};
-    team1GoalGrid[3][2] = {team: 1, name: 'Bronze', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Gladiator']};
-    team1GoalGrid[7][2] = {team: 1, name: 'Silberves', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Tractor', 'Gladiator']};
-    team1GoalGrid[10][2] = {team: 1, name: 'Fremant', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Tractor', 'Black Gladiator', 'Playmaker', 'Ram']};
-    team1GoalGrid[14][2] = {team: 1, name: 'Hentz', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Gladiator', 'Archer', 'Ram']};
-    team1GoalGrid[9][15] = { team: 2, name: 'Marsillas', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Black Paw', 'Black Gladiator'] };
-    team1GoalGrid[6][11] = { team: 2, name: 'Ziderm', hasBall: false, turnsDisabled: 0, gm: false, skills: [ 'Tractor', 'Black Playmaker', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
-    team1GoalGrid[7][13] = { team: 2, name: 'Rasmoz', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Gladiator', 'Ram'] };
-    team1GoalGrid[7][8] = { team: 2, name: 'Radolno', hasBall: true, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Rabbit', 'Black Wizard', 'Black Cannon', 'Black Viper'] };
-    team1GoalGrid[10][13] = { team: 2, name: 'Boomwhale', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gladiator', 'Ram'] };
-    team1GoalGrid[3][13] = { team: 2, name: 'Santiago', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Wizard'] };
-    team1GoalGrid[14][13] = { team: 2, name: 'Larcos', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Rabbit', 'Black Archer', 'Wizard', 'Black Cannon'] };
-    team1GoalGrid[11][11] = { team: 2, name: 'Yuti', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Black Playmaker', 'Archer', 'Wizard'] };
-    team1GoalGrid[8][12] = { team: 2, name: 'Gammelsen', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Gorilla', 'Gladiator', 'Canon'] };
-    team1GoalGrid[9][12] = { team: 2, name: 'Backpam', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon'] };
-    team1GoalGrid[9][9] = { team: 2, name: 'Rajol', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Playmaker', 'Wizard', 'Black Viper'] };
+    team1GoalGrid[8][0] = { team: 1, name: 'VonMeerSalz', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Black Paw', 'Gladiator', 'Playmaker'] }
+    team1GoalGrid[2][4] = { team: 1, name: 'CRadolno', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Rabbit', 'Viper', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
+    team1GoalGrid[15][4] = {team: 1, name: 'Art', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Rabbit', 'Playmaker', 'Wizard']};
+    team1GoalGrid[9][3] = {team: 1, name: 'Keens', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Black Gladiator', 'Playmaker']};
+    team1GoalGrid[7][6] = {team: 1, name: 'VanBindelrooy', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Wizard', 'Black Viper', 'Black Cannon', 'Ram']};
+    team1GoalGrid[9][6] = {team: 1, name: 'Romeny', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Rabbit', 'Wizard', 'Viper', 'Black Cannon']};
+    team1GoalGrid[8][3] = {team: 1, name: 'Shovels', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon', 'Ram']};
+    team1GoalGrid[3][2] = {team: 1, name: 'Bronze', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Gladiator']};
+    team1GoalGrid[7][2] = {team: 1, name: 'Silberves', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Tractor', 'Gladiator']};
+    team1GoalGrid[10][2] = {team: 1, name: 'Fremant', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Tractor', 'Black Gladiator', 'Playmaker', 'Ram']};
+    team1GoalGrid[14][2] = {team: 1, name: 'Hentz', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Gladiator', 'Archer', 'Ram']};
+    team1GoalGrid[9][15] = { team: 2, name: 'Marsillas', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Black Paw', 'Black Gladiator'] };
+    team1GoalGrid[6][11] = { team: 2, name: 'Ziderm', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: [ 'Tractor', 'Black Playmaker', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
+    team1GoalGrid[7][13] = { team: 2, name: 'Rasmoz', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Gladiator', 'Ram'] };
+    team1GoalGrid[7][8] = { team: 2, name: 'Radolno', hasBall: true, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Rabbit', 'Black Wizard', 'Black Cannon', 'Black Viper'] };
+    team1GoalGrid[10][13] = { team: 2, name: 'Boomwhale', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gladiator', 'Ram'] };
+    team1GoalGrid[3][13] = { team: 2, name: 'Santiago', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Wizard'] };
+    team1GoalGrid[14][13] = { team: 2, name: 'Larcos', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Rabbit', 'Black Archer', 'Wizard', 'Black Cannon'] };
+    team1GoalGrid[11][11] = { team: 2, name: 'Yuti', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Black Playmaker', 'Archer', 'Wizard'] };
+    team1GoalGrid[8][12] = { team: 2, name: 'Gammelsen', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Gorilla', 'Gladiator', 'Canon'] };
+    team1GoalGrid[9][12] = { team: 2, name: 'Backpam', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon'] };
+    team1GoalGrid[9][9] = { team: 2, name: 'Rajol', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Playmaker', 'Wizard', 'Black Viper'] };
 
     const team2GoalGrid = Array.from({ length: numRows }, () => Array(numCols).fill(null));
 
-    team2GoalGrid[8][0] = { team: 1, name: 'VonMeerSalz', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Black Paw', 'Gladiator', 'Playmaker'] }
-    team2GoalGrid[2][4] = { team: 1, name: 'CRadolno', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Rabbit', 'Viper', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
-    team2GoalGrid[15][4] = {team: 1, name: 'Art', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Rabbit', 'Playmaker', 'Wizard']};
-    team2GoalGrid[9][3] = {team: 1, name: 'Keens', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Black Gladiator', 'Playmaker']};
-    team2GoalGrid[7][7] = {team: 1, name: 'VanBindelrooy', hasBall: true, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Wizard', 'Black Viper', 'Black Cannon', 'Ram']};
-    team2GoalGrid[9][6] = {team: 1, name: 'Romeny', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Rabbit', 'Wizard', 'Viper', 'Black Cannon']};
-    team2GoalGrid[8][3] = {team: 1, name: 'Shovels', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon', 'Ram']};
-    team2GoalGrid[3][2] = {team: 1, name: 'Bronze', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Gladiator']};
-    team2GoalGrid[7][2] = {team: 1, name: 'Silberves', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Tractor', 'Gladiator']};
-    team2GoalGrid[10][2] = {team: 1, name: 'Fremant', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Tractor', 'Black Gladiator', 'Playmaker', 'Ram']};
-    team2GoalGrid[14][2] = {team: 1, name: 'Hentz', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Gladiator', 'Archer', 'Ram']};
-    team2GoalGrid[9][15] = { team: 2, name: 'Marsillas', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Black Paw', 'Black Gladiator'] };
-    team2GoalGrid[6][11] = { team: 2, name: 'Ziderm', hasBall: false, turnsDisabled: 0, gm: false, skills: [ 'Tractor', 'Black Playmaker', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
-    team2GoalGrid[7][13] = { team: 2, name: 'Rasmoz', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gorilla', 'Gladiator', 'Ram'] };
-    team2GoalGrid[7][9] = { team: 2, name: 'Radolno', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Rabbit', 'Black Wizard', 'Black Cannon', 'Black Viper'] };
-    team2GoalGrid[10][13] = { team: 2, name: 'Boomwhale', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Gladiator', 'Ram'] };
-    team2GoalGrid[3][13] = { team: 2, name: 'Santiago', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Wizard'] };
-    team2GoalGrid[14][13] = { team: 2, name: 'Larcos', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Rabbit', 'Black Archer', 'Wizard', 'Black Cannon'] };
-    team2GoalGrid[11][11] = { team: 2, name: 'Yuti', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Black Playmaker', 'Archer', 'Wizard'] };
-    team2GoalGrid[8][12] = { team: 2, name: 'Gammelsen', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Gorilla', 'Gladiator', 'Canon'] };
-    team2GoalGrid[9][12] = { team: 2, name: 'Backpam', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon'] };
-    team2GoalGrid[9][9] = { team: 2, name: 'Rajol', hasBall: false, turnsDisabled: 0, gm: false, skills: ['Tractor', 'Playmaker', 'Wizard', 'Black Viper'] };
+    team2GoalGrid[8][0] = { team: 1, name: 'VonMeerSalz', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Black Paw', 'Gladiator', 'Playmaker'] }
+    team2GoalGrid[2][4] = { team: 1, name: 'CRadolno', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Rabbit', 'Viper', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
+    team2GoalGrid[15][4] = {team: 1, name: 'Art', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Rabbit', 'Playmaker', 'Wizard']};
+    team2GoalGrid[9][3] = {team: 1, name: 'Keens', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Black Gladiator', 'Playmaker']};
+    team2GoalGrid[7][7] = {team: 1, name: 'VanBindelrooy', hasBall: true, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Wizard', 'Black Viper', 'Black Cannon', 'Ram']};
+    team2GoalGrid[9][6] = {team: 1, name: 'Romeny', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Rabbit', 'Wizard', 'Viper', 'Black Cannon']};
+    team2GoalGrid[8][3] = {team: 1, name: 'Shovels', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon', 'Ram']};
+    team2GoalGrid[3][2] = {team: 1, name: 'Bronze', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Gladiator']};
+    team2GoalGrid[7][2] = {team: 1, name: 'Silberves', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Tractor', 'Gladiator']};
+    team2GoalGrid[10][2] = {team: 1, name: 'Fremant', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Tractor', 'Black Gladiator', 'Playmaker', 'Ram']};
+    team2GoalGrid[14][2] = {team: 1, name: 'Hentz', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Gladiator', 'Archer', 'Ram']};
+    team2GoalGrid[9][15] = { team: 2, name: 'Marsillas', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Black Paw', 'Black Gladiator'] };
+    team2GoalGrid[6][11] = { team: 2, name: 'Ziderm', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: [ 'Tractor', 'Black Playmaker', 'Black Archer', 'Black Wizard', 'Black Cannon'] };
+    team2GoalGrid[7][13] = { team: 2, name: 'Rasmoz', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gorilla', 'Gladiator', 'Ram'] };
+    team2GoalGrid[7][9] = { team: 2, name: 'Radolno', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Rabbit', 'Black Wizard', 'Black Cannon', 'Black Viper'] };
+    team2GoalGrid[10][13] = { team: 2, name: 'Boomwhale', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Gladiator', 'Ram'] };
+    team2GoalGrid[3][13] = { team: 2, name: 'Santiago', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Wizard'] };
+    team2GoalGrid[14][13] = { team: 2, name: 'Larcos', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Rabbit', 'Black Archer', 'Wizard', 'Black Cannon'] };
+    team2GoalGrid[11][11] = { team: 2, name: 'Yuti', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Black Playmaker', 'Archer', 'Wizard'] };
+    team2GoalGrid[8][12] = { team: 2, name: 'Gammelsen', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Gorilla', 'Gladiator', 'Canon'] };
+    team2GoalGrid[9][12] = { team: 2, name: 'Backpam', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Black Playmaker', 'Black Archer', 'Black Cannon'] };
+    team2GoalGrid[9][9] = { team: 2, name: 'Rajol', hasBall: false, turnsDisabled: 0, at: false, gm: false, skills: ['Tractor', 'Playmaker', 'Wizard', 'Black Viper'] };
 
   const isPathClear = (start, end, currentGrid) => {
     const rowDiff = Math.abs(start.row - end.row);
@@ -554,7 +554,7 @@ function App() {
     setPlayerName(clickedCircleInfo?.name);
     setPlayerSkills(clickedCircleInfo?.skills);
 
-    if (!onlyPass) {
+    if (!onlyPass && !at) {
     if ((row === 0 || row === 17) && remainingMovements > 0){
       setGroupMove(true);
       setDisplayButtons('dirButtons');
@@ -947,7 +947,7 @@ function App() {
       }
     }
 
-      else if (selectedCircleInfo.team !== team) {
+      else if (selectedCircleInfo.team !== team && !selectedCircleInfo.at) {
         console.log("Cannot select a circle from the opposing team on this turn!");
         setSelectedCircle(null);
         return;
@@ -962,7 +962,8 @@ function App() {
         !clickedCircleInfo.hasBall &&
         clickedCircleInfo.turnsDisabled <= 0 &&
         remainingMovements > 0 &&
-        !groupMove
+        !groupMove &&
+        !selectedCircleInfo.at
       ) {
         console.log("Passing...");
         // Handle passing
@@ -1194,7 +1195,7 @@ function App() {
         console.log("isSquareAvailable:", isSquareAvailable);
         console.log("isAdjacent:", isAdjacent);
   
-        if (isAdjacent && remainingMovements > 0 && clickedCircleInfo && clickedCircleInfo.turnsDisabled <= 0 && clickedCircleInfo.team !== selectedCircleInfo.team && clickedCircleInfo.hasBall && !selectedCircleInfo.hasBall && !groupMove) {
+        if (isAdjacent && remainingMovements > 0 && clickedCircleInfo && clickedCircleInfo.turnsDisabled <= 0 && clickedCircleInfo.team !== selectedCircleInfo.team && clickedCircleInfo.hasBall && !selectedCircleInfo.hasBall && !groupMove && !selectedCircleInfo.at) {
           console.log("Tackling...");
           const dice1 = (Math.floor(Math.random() * 6) + 1);
           const dice2 = (Math.floor(Math.random() * 6) + 1);
@@ -1235,54 +1236,60 @@ function App() {
           setGrid((prevGrid) => {
             const newGrid = [...prevGrid];
             newGrid[selectedCircle.row][selectedCircle.col] = {...clickedCircleInfo, hasBall: false, turnsDisabled: 6};
-            newGrid[row][col] = { ...selectedCircleInfo, hasBall: true };
+            newGrid[row][col] = { ...selectedCircleInfo, hasBall: true, at: true };
             handleTacklingButtons(true);
-            setRemainingMovements(remainingMovements - 1);
             setDiceResult1(dice1);
             setDiceResult2(dice2);
             setModDiceResult1(diceResult1);
             setModDiceResult2(diceResult2);
-            setSelectedCircle(null);
+            setSelectedCircle({ row: row, col: col });
+            setAt(true);
             return newGrid;
           });
         } else if ((selectedCircleInfo.team === 1 && (diceResult2 > diceResult1)) ||
         (selectedCircleInfo.team === 2 && (diceResult1 > diceResult2))) {
       setGrid((prevGrid) => {
       const newGrid = [...prevGrid];
-      newGrid[selectedCircle.row][selectedCircle.col] = {...clickedCircleInfo, hasBall: true};
+      newGrid[selectedCircle.row][selectedCircle.col] = {...clickedCircleInfo, hasBall: true, at: true};
       newGrid[row][col] = { ...selectedCircleInfo, hasBall: false, turnsDisabled: 8 };
       handleTacklingButtons(false);
-      setRemainingMovements(remainingMovements - 1);
       setDiceResult1(dice1);
             setDiceResult2(dice2);
             setModDiceResult1(diceResult1);
           setModDiceResult2(diceResult2);
-      setSelectedCircle(null);
+      setSelectedCircle(selectedCircle);
+      setAt(true);
       return newGrid;
     });
   }
-        } else if (!isOccupied && !onlyPass && isPathClearBetween && isSquareAvailable && selectedCircleInfo.team === team) {
+        } else if (!isOccupied && !onlyPass && isPathClearBetween && isSquareAvailable && (selectedCircleInfo.team === team || selectedCircleInfo.at)) {
           console.log("Moving...");
           // Handle movement
           setGrid((prevGrid) => {
             const newGrid = [...prevGrid];
             // Keep the hasBall property when moving the player
             newGrid[selectedCircle.row][selectedCircle.col] = null;
-            newGrid[row][col] = { ...selectedCircleInfo, team, hasBall: selectedCircleInfo.hasBall, gm: false };
+            newGrid[row][col] = { ...selectedCircleInfo, gm: false, at: false };
             addMatchLogEntry(
               `${selectedCircleInfo.name} ${selectedCircle.row} ${selectedCircle.col} -> ${row} ${col}`
             );
             return newGrid;
           });
+          if (at) {
+            setAt(false);
+          }
           if (!groupMove) {
           setRemainingMovements(remainingMovements - 1);
+          } if (selectedCircleInfo.team !== team && drib) {
+            setRemainingMovements(-1);
+            setDrib(false);
           }
           setSelectedCircle(null);
         } 
-        else if (isAdjacent && remainingMovements > 0 && clickedCircleInfo && clickedCircleInfo.turnsDisabled <= 0 && clickedCircleInfo.team !== selectedCircleInfo.team && selectedCircleInfo.hasBall && !clickedCircleInfo.hasBall && !groupMove) {
+        else if (isAdjacent && remainingMovements > 0 && clickedCircleInfo && clickedCircleInfo.turnsDisabled <= 0 && clickedCircleInfo.team !== selectedCircleInfo.team && selectedCircleInfo.hasBall && !clickedCircleInfo.hasBall && !groupMove && !selectedCircleInfo.at) {
           console.log("Dribbling...");
           const dice1 = (Math.floor(Math.random() * 6) + 1);
-          const dice2 = (Math.floor(Math.random() * 6) + 1);
+          const dice2 = (Math.floor(Math.random() * 6) + 1) + 20;
           let diceResult1 = dice1;
           let diceResult2 = dice2;
           console.log('dice 1 before add:', dice1, 'dice 2:', dice2);
@@ -1320,7 +1327,7 @@ function App() {
           setGrid((prevGrid) => {
             const newGrid = [...prevGrid];
             newGrid[selectedCircle.row][selectedCircle.col] = {...clickedCircleInfo, turnsDisabled: 6};
-            newGrid[row][col] = { ...selectedCircleInfo};
+            newGrid[row][col] = { ...selectedCircleInfo, at: true};
             console.log('Circle ', newGrid[selectedCircle.row][selectedCircle.col], ' is disabled for ', newGrid[selectedCircle.row][selectedCircle.col]?.turnsDisabled, ' turns');
             addMatchLogEntry(
               `${selectedCircleInfo.name} ${selectedCircle.row} ${selectedCircle.col} x ${clickedCircleInfo.name} ${row} ${col}`
@@ -1328,25 +1335,26 @@ function App() {
             handleDribblingButtons(true);
             return newGrid;
           });
-
-          setRemainingMovements(remainingMovements - 1);
           setDiceResult1(dice1);
           setDiceResult2(dice2);
           setModDiceResult1(diceResult1);
           setModDiceResult2(diceResult2);
-          setSelectedCircle(null);
+          setSelectedCircle({ row: row, col: col });
+          setAt(true);
         } else if ((selectedCircleInfo.team === 1 && (diceResult2 > diceResult1)) ||
         (selectedCircleInfo.team === 2 && (diceResult1 > diceResult2))){
           setGrid((prevGrid) => {
             const newGrid = [...prevGrid];
-            newGrid[selectedCircle.row][selectedCircle.col] = {...clickedCircleInfo, hasBall: true};
+            newGrid[selectedCircle.row][selectedCircle.col] = {...clickedCircleInfo, hasBall: true, at: true};
             newGrid[row][col] = { ...selectedCircleInfo, hasBall: false, turnsDisabled: 8 };
             handleDribblingButtons(false);
-            setSelectedCircle(null);
+            setSelectedCircle(selectedCircle);
             setDiceResult1(dice1);
             setDiceResult2(dice2);
             setModDiceResult1(diceResult1);
             setModDiceResult2(diceResult2);
+            setDrib(true);
+            setAt(true);
             return newGrid;
           });
         }
@@ -1453,6 +1461,7 @@ function App() {
       const selectedCircleHasBall = grid[selectedCircle.row][selectedCircle.col]?.hasBall;
       const selectedCircleSkills = grid[selectedCircle.row][selectedCircle.col]?.skills;
       const selectedCircleGM = grid[selectedCircle.row][selectedCircle.col]?.gm;
+      const selectedCircleAT = grid[selectedCircle.row][selectedCircle.col]?.at;
     if (selectedCircleSkills?.includes('Paw') || selectedCircleSkills?.includes('Black Paw')) {
       return availableSquares;
     };
@@ -1533,6 +1542,22 @@ function App() {
             !isOccupied &&
             !isDefaultOccupied &&
             isPathClear &&
+            selectedCircleHasBall &&
+            selectedCircleAT &&
+            ((rowDiff === 1 && colDiff === 0) ||
+              (rowDiff === 1 && colDiff === 1) ||
+              (rowDiff === 0 && colDiff === 1))
+          ) {
+            const square = { row: i, col: j };
+            availableSquares.push(square);
+          }
+          if (!at) {
+          if (
+            !isWithinExclusionZone(i, j, selectedCircleTeam) &&
+            !isOccupied &&
+            !isDefaultOccupied &&
+            !selectedCircleAT &&
+            isPathClear &&
             selectedCircleTeam === team &&
             groupMove &&
             selectedCircleGM &&
@@ -1578,6 +1603,7 @@ function App() {
             !isOccupied &&
             !isDefaultOccupied &&
             isPathClear &&
+            !selectedCircleAT &&
             selectedCircleTeam === team &&
             !selectedCircleHasBall &&
             !groupMove &&
@@ -1600,6 +1626,7 @@ function App() {
             !isWithinExclusionZone(i, j, selectedCircleTeam) &&
             !isOccupied &&
             !isDefaultOccupied &&
+            !selectedCircleAT &&
             isPathClear &&
             !groupMove &&
             !selectedCircleGM &&
@@ -1623,6 +1650,7 @@ function App() {
             !isDefaultOccupied &&
             !groupMove &&
             !selectedCircleGM &&
+            !selectedCircleAT &&
             isPathClear &&
             selectedCircleTeam === team &&
             selectedCircleHasBall &&
@@ -1637,6 +1665,7 @@ function App() {
           }
         }
       }
+    }
       return availableSquares;
     }
     return [];
@@ -1933,7 +1962,7 @@ function App() {
       <p></p>
       <p></p>
       <p></p>
-      {!isGameEnded && <button onClick={handleNextTurn}>Next Turn</button>}
+      {!isGameEnded && remainingMovements === -3 && <button onClick={handleNextTurn}>Next Turn</button>}
       <button onClick={handleStatsClick}>Stats</button>
       <button onClick={handleLogClick}>Log</button>
       <div>

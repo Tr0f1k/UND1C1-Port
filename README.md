@@ -108,6 +108,10 @@ Squares available for putting a lock in it have aquamarine background. White loc
 3) Fixed a bug when the squares with players available to dribble through were not changing background to blue
 4) After clicking on a player, information about his skills will appear under the stats. More improvements to come
 
+## 04/12/2023
+
+1) Made it possible for players who remained with the ball to move by 1 square after tackle or dribble
+
 # P.S.
 
 Again, I want to address the fact that this is intended only as a project to gain experience, and there was no personal gain in thought. If you'll like how this game works, consider checking it out via https://www.und1c1.com/ .
