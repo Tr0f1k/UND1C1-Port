@@ -1289,7 +1289,7 @@ function App() {
         else if (isAdjacent && remainingMovements > 0 && clickedCircleInfo && clickedCircleInfo.turnsDisabled <= 0 && clickedCircleInfo.team !== selectedCircleInfo.team && selectedCircleInfo.hasBall && !clickedCircleInfo.hasBall && !groupMove && !selectedCircleInfo.at) {
           console.log("Dribbling...");
           const dice1 = (Math.floor(Math.random() * 6) + 1);
-          const dice2 = (Math.floor(Math.random() * 6) + 1) + 20;
+          const dice2 = (Math.floor(Math.random() * 6) + 1);
           let diceResult1 = dice1;
           let diceResult2 = dice2;
           console.log('dice 1 before add:', dice1, 'dice 2:', dice2);
