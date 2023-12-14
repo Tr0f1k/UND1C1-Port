@@ -47,7 +47,7 @@ function App() {
   const [teamWithPossession, setTeamWithPossession] = useState(1);
   const [showTeamWithPossession, setShowTeamWithPossession] = useState(teamWithPossession)
   const [grid, setGrid] = useState([]);
-  const [selectedCircle, setSelectedCircle] = useState(null);
+  const [selectedCircle, setSelectedCircle] = useState();
   const [remainingMovements, setRemainingMovements] = useState(3);
   const [passing, setPassing] = useState(false);
   const [displaySection, setDisplaySection] = useState('stats');
